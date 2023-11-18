@@ -14,6 +14,8 @@ COMBO_ENABLE = yes
 
 # Add defines for flexkey optional features.
 
+OPT_DEFS += -DFK_EXT_SAME_SIDE
+
 ifeq ($(strip $(FK_TOP_OUTER_KEY)), yes)
   OPT_DEFS += -DFK_TOP_OUTER
 endif
