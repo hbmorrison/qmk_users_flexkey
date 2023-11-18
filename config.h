@@ -45,67 +45,67 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #ifdef FK_TOP_OUTER
 #define SPACER_TL KC_NO,
 #define SPACER_TR ,KC_NO
-#define TEST_TL
-#define TEST_TR
+#define FERRIS_TL
+#define FERRIS_TR
 #else
 #define SPACER_TL
 #define SPACER_TR
-#define TEST_TL KC_NO,
-#define TEST_TR ,KC_NO
+#define FERRIS_TL KC_NO,
+#define FERRIS_TR ,KC_NO
 #endif
 
 #ifdef FK_MDL_OUTER
 #define SPACER_ML KC_NO,
 #define SPACER_MR ,KC_NO
-#define TEST_ML
-#define TEST_MR
+#define FERRIS_ML
+#define FERRIS_MR
 #else
 #define SPACER_ML
 #define SPACER_MR
-#define TEST_ML KC_NO,
-#define TEST_MR ,KC_NO
+#define FERRIS_ML KC_NO,
+#define FERRIS_MR ,KC_NO
 #endif
 
 #ifdef FK_BTM_OUTER
 #define SPACER_BL KC_NO,
 #define SPACER_BR ,KC_NO
-#define TEST_BL
-#define TEST_BR
+#define FERRIS_BL
+#define FERRIS_BR
 #else
 #define SPACER_BL
 #define SPACER_BR
-#define TEST_BL KC_NO,
-#define TEST_BR ,KC_NO
+#define FERRIS_BL KC_NO,
+#define FERRIS_BR ,KC_NO
 #endif
 
 #ifdef FK_TOP_INNER
 #define SPACER_TI KC_NO, KC_NO,
-#define TEST_TI
+#define FERRIS_TI
 #else
 #define SPACER_TI
-#define TEST_TI KC_NO, KC_NO,
+#define FERRIS_TI KC_NO, KC_NO,
 #endif
 
 #ifdef FK_MDL_INNER
 #define SPACER_MI KC_NO, KC_NO,
-#define TEST_MI
+#define FERRIS_MI
 #else
 #define SPACER_MI
-#define TEST_MI KC_NO, KC_NO,
+#define FERRIS_MI KC_NO, KC_NO,
 #endif
 
 #ifdef FK_BTM_INNER
 #define SPACER_BI KC_NO, KC_NO,
-#define TEST_BI
+#define FERRIS_BI
 #else
 #define SPACER_BI
-#define TEST_BI KC_NO, KC_NO,
+#define FERRIS_BI KC_NO, KC_NO,
 #endif
 
 #ifdef FK_THUMB_OUTER
-#define TEST_THL
-#define TEST_THR
+#define FERRIS_THL
+#define FERRIS_THR
 #else
-#define TEST_THL KC_NO,
-#define TEST_THR ,KC_NO
+#define FERRIS_THL KC_NO,
+#define FERRIS_THR ,KC_NO
 #endif
