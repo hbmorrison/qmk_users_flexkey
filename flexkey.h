@@ -64,86 +64,51 @@ enum fk_keycodes {
 #define KC_I_CTL LCTL_T(KC_I)
 #define KC_Y_ALT LALT_T(KC_Y)
 
-// Oneshot keys.
+// Layer keys.
 
-#define KC_OS_SFT OSM(MOD_LSFT)
-#define KC_OS_FUNC OSL(LAYER_FUNC)
-
-// Thumbkey layer keys for nav and num layers.
-
-#define KC_SPC_NAV_LAYER LT(LAYER_NAV, KC_SPC)
-#define KC_ENT_NUM_LAYER LT(LAYER_NUM, KC_ENT)
-
-// Sym layer keys.
-
-#define KC_SYM_LEFT OSL(LAYER_SYM_LEFT)
-#define KC_SYM_RIGHT OSL(LAYER_SYM_RIGHT)
-
-// Fill layer keys.
-
+#define KC_FUNC MO(LAYER_FUNC)
 #define KC_S_EXT_LEFT LT(LAYER_EXT_LEFT, KC_S)
 #define KC_E_EXT_RIGHT LT(LAYER_EXT_RIGHT, KC_E)
+#define KC_A_SYM_LEFT LT(LAYER_SYM_LEFT, KC_A)
+#define KC_X_SYM_LEFT LT(LAYER_SYM_LEFT, KC_X)
+#define KC_Z_SYM_LEFT LT(LAYER_SYM_LEFT, KC_Z)
+#define KC_O_SYM_RIGHT LT(LAYER_SYM_RIGHT, KC_O)
+#define KC_DOT_SYM_RIGHT LT(LAYER_SYM_RIGHT, KC_DOT)
+#define KC_SLSH_SYM_RIGHT LT(LAYER_SYM_RIGHT, KC_SLSH)
+#define KC_SPC_NAV_LAYER LT(LAYER_NAV, KC_SPC)
+#define KC_ENT_NUM_LAYER LT(LAYER_NUM, KC_ENT)
 
 // Logic for the inner and outer parts of the layout.
 
 #ifdef FK_TOP_OUTER
 #define KC_BASE_TL KC_Q, KC_W_ALT
 #define KC_BASE_TR KC_Y_ALT, KC_BSPC
-#define KC_NAV_TL KC_ESC
 #else
 #define KC_BASE_TL KC_W_ALT
 #define KC_BASE_TR KC_Y_ALT
-#define KC_NAV_TL KC_Q
 #endif
 
 #ifdef FK_MDL_OUTER
+// The middle outer keys should only be layer keys if the bottom outer keys are
+// not present.
 #ifdef FK_BTM_OUTER
-#define KC_BASE_ML_OUTER KC_A
-#define KC_BASE_MR_OUTER KC_O
-#define KC_SYM_ML_OUTER KC_Z
-#define KC_SYM_MR_OUTER KC_SLSH
+#define KC_BASE_ML KC_A, KC_R_CTL
+#define KC_BASE_MR KC_I_CTL, KC_O
 #else
-#define KC_BASE_ML_OUTER KC_SYM_LEFT
-#define KC_BASE_MR_OUTER KC_SYM_RIGHT
-#define KC_SYM_ML_OUTER KC_A
-#define KC_SYM_MR_OUTER KC_O
-#endif
-#endif
-
-#ifdef FK_MDL_OUTER
-#if defined FK_TOP_OUTER || defined FK_BTM_OUTER
-#define KC_BASE_ML KC_BASE_ML_OUTER, KC_R_CTL
-#define KC_BASE_MR KC_I_CTL, KC_BASE_MR_OUTER
-#define KC_SYM_ML KC_SYM_ML_OUTER, KC_GRV
-#define KC_SYM_MR KC_NO, KC_SYM_MR_OUTER
-#else
-// If no top or bottom outer key exists, this "middle" key actually ends up on
-// the bottom layer.
-#define KC_BASE_ML KC_R_CTL
-#define KC_BASE_MR KC_I_CTL
-#define KC_SYM_ML KC_GRV
-#define KC_SYM_MR KC_NO
-#define FK_BTM_OUTER
-#endif
+#define KC_BASE_ML KC_A_SYM_LEFT, KC_R_CTL
+#define KC_BASE_MR KC_I_CTL, KC_O_SYM_RIGHT
+#endif // FK_BTM_OUTER
 #else
 #define KC_BASE_ML KC_R_CTL
 #define KC_BASE_MR KC_I_CTL
-#define KC_SYM_ML KC_GRV
-#define KC_SYM_MR KC_NO
 #endif
 
 #ifdef FK_BTM_OUTER
-#define KC_BASE_BL KC_SYM_LEFT, KC_X, KC_C
-#define KC_BASE_BR KC_COMM, KC_DOT, KC_SYM_RIGHT
-#define KC_SYM_BL KC_Z, KC_NO
-#define KC_SYM_BR KC_NO, KC_SLSH
-#define KC_NAV_BL KC_CAPS
+#define KC_BASE_BL KC_Z_SYM_LEFT, KC_X
+#define KC_BASE_BR KC_DOT, KC_SLSH_SYM_RIGHT
 #else
-#define KC_BASE_BL KC_SYM_LEFT, KC_C
-#define KC_BASE_BR KC_COMM, KC_SYM_RIGHT
-#define KC_SYM_BL KC_X
-#define KC_SYM_BR KC_DOT
-#define KC_NAV_BL KC_Z
+#define KC_BASE_BL KC_X_SYM_LEFT
+#define KC_BASE_BR KC_DOT_SYM_RIGHT
 #endif
 
 #ifdef FK_TOP_INNER
@@ -162,6 +127,9 @@ enum fk_keycodes {
 #define KC_BASE_INNER_MR KC_N_SFT
 #endif
 
+// The navigation and number layer keys move onto the bottom inner keys if no
+// thumb keys are present.
+
 #ifdef FK_THUMB_INNER
 #define KC_D_OR_SPC KC_D
 #define KC_H_OR_ENT KC_H
@@ -177,13 +145,9 @@ enum fk_keycodes {
 #ifdef FK_BTM_INNER
 #define KC_BASE_INNER_BL KC_D, KC_V_OR_SPC
 #define KC_BASE_INNER_BR KC_K_OR_ENT, KC_H
-#define KC_NAV_INNER_BL KC_NO, KC_V, KC_NO
-#define KC_NUM_INNER_BR KC_NO, KC_K, KC_NO
 #else
 #define KC_BASE_INNER_BL KC_D_OR_SPC
 #define KC_BASE_INNER_BR KC_H_OR_ENT
-#define KC_NAV_INNER_BL KC_V
-#define KC_NUM_INNER_BR KC_K
 #endif
 
 #ifdef FK_THUMB_INNER
@@ -201,11 +165,11 @@ enum fk_keycodes {
 
 #define KM_BASE_1L KC_BASE_TL, KC_F, KC_BASE_INNER_TL
 #define KM_BASE_2L KC_BASE_ML, KC_S_EXT_LEFT, KC_BASE_INNER_ML
-#define KM_BASE_3L KC_BASE_BL, KC_BASE_INNER_BL
+#define KM_BASE_3L KC_BASE_BL, KC_C, KC_BASE_INNER_BL
 
 #define KM_BASE_1R KC_BASE_INNER_TR, KC_U, KC_BASE_TR
 #define KM_BASE_2R KC_BASE_INNER_MR, KC_E_EXT_RIGHT, KC_BASE_MR
-#define KM_BASE_3R KC_BASE_INNER_BR, KC_BASE_BR
+#define KM_BASE_3R KC_BASE_INNER_BR, KC_COMM, KC_BASE_BR
 
 #define KM_BASE_1 KM_BASE_1L, KM_BASE_1R
 #define KM_BASE_2 KM_BASE_2L, KM_BASE_2R
@@ -213,7 +177,7 @@ enum fk_keycodes {
 
 #ifdef FK_THUMB_INNER
 #ifdef FK_THUMB_OUTER
-#define KM_THUMB_BASE_L KC_OS_SFT, KC_SPC_NAV_LAYER
+#define KM_THUMB_BASE_L KC_LSFT, KC_SPC_NAV_LAYER
 #define KM_THUMB_BASE_R KC_ENT_NUM_LAYER, KC_BSPC
 #else
 #define KM_THUMB_BASE_L KC_SPC_NAV_LAYER
@@ -228,7 +192,7 @@ enum fk_keycodes {
 #define LAYOUT_BASE KM_BASE_1, KM_BASE_2, KM_BASE_3
 #endif
 
-// Left fill layer for flexkey keyboards.
+// Left extended layer for flexkey keyboards.
 
 #define KM_EXT_LEFT_1L SPACER_TL KC_LALT, KC_NO, KC_LGUI
 #define KM_EXT_LEFT_2L SPACER_ML KC_LCTL, KC_TRNS, KC_LSFT
@@ -248,9 +212,9 @@ enum fk_keycodes {
 #define LAYOUT_EXT_LEFT KM_EXT_LEFT_1, KM_EXT_LEFT_2, KM_EXT_LEFT_3
 #endif
 
-// Right fill layer for flexkey keyboards.
+// Right extended layer for flexkey keyboards.
 
-#define KM_EXT_RIGHT_1L SPACER_TL KC_Q, KC_NO, KC_B
+#define KM_EXT_RIGHT_1L SPACER_TL KC_Q, KC_GRV, KC_B
 #define KM_EXT_RIGHT_2L SPACER_ML KC_A, KC_TRNS, KC_G
 #define KM_EXT_RIGHT_3L SPACER_BL KC_Z, KC_D, KC_V
 
@@ -270,11 +234,11 @@ enum fk_keycodes {
 
 // Left symbol layer for flexkey keyboards.
 
-#define KM_SYM_LEFT_1L SPACER_TL KC_EXLM, KC_QUES, KC_CIRC
-#define KM_SYM_LEFT_2L KC_SYM_ML, KC_PLUS, KC_COLN
-#define KM_SYM_LEFT_3L KC_SYM_BL, KC_EQL, KC_SCLN
+#define KM_SYM_LEFT_1L SPACER_TL KC_NO, KC_EXLM, KC_CIRC
+#define KM_SYM_LEFT_2L SPACER_ML KC_NO, KC_PLUS, KC_COLN
+#define KM_SYM_LEFT_3L SPACER_BL KC_NO, KC_EQL, KC_SCLN
 
-#define KM_SYM_LEFT_1R SPACER_TI KC_AMPR, KC_ASTR, KC_OS_FUNC SPACER_TR
+#define KM_SYM_LEFT_1R SPACER_TI KC_AMPR, KC_ASTR, KC_FUNC SPACER_TR
 #define KM_SYM_LEFT_2R SPACER_MI KC_UK_AT, KC_UK_TILDE, KC_UNDS SPACER_MR
 #define KM_SYM_LEFT_3R SPACER_BI KC_QUOT, KC_UK_HASH, KC_MINS SPACER_BR
 
@@ -295,8 +259,8 @@ enum fk_keycodes {
 #define KM_SYM_RIGHT_3L SPACER_BL KC_UK_BSLS, KC_RBRC, KC_RCBR
 
 #define KM_SYM_RIGHT_1R SPACER_TI KC_PERC, KC_NO, KC_NO SPACER_TR
-#define KM_SYM_RIGHT_2R SPACER_MI KC_LPRN, KC_LT, KC_SYM_MR
-#define KM_SYM_RIGHT_3R SPACER_BI KC_RPRN, KC_GT, KC_SYM_BR
+#define KM_SYM_RIGHT_2R SPACER_MI KC_LPRN, KC_LT, KC_NO SPACER_MR
+#define KM_SYM_RIGHT_3R SPACER_BI KC_RPRN, KC_GT, KC_NO SPACER_BR
 
 #define KM_SYM_RIGHT_1 KM_SYM_RIGHT_1L, KM_SYM_RIGHT_1R
 #define KM_SYM_RIGHT_2 KM_SYM_RIGHT_2L, KM_SYM_RIGHT_2R
@@ -310,13 +274,13 @@ enum fk_keycodes {
 
 // Navigation layer for flexkey keyboards.
 
-#define KM_NAV_1L SPACER_TL KC_NAV_TL, KC_PSCR, KC_B
+#define KM_NAV_1L SPACER_TL KC_ESC, KC_PSCR, KC_NO
 #define KM_NAV_2L SPACER_ML KC_TAB, M_ALT_TAB, KC_NO
-#define KM_NAV_3L SPACER_BL KC_NAV_BL, KC_PGDN, KC_NAV_INNER_BL
+#define KM_NAV_3L SPACER_BL KC_CAPS, KC_PGDN, KC_NO
 
 #define KM_NAV_1R SPACER_TI LCTL(LGUI(KC_LEFT)), KC_UP, LCTL(LGUI(KC_RGHT)) SPACER_TR
 #define KM_NAV_2R SPACER_MI KC_LEFT, KC_DOWN, KC_RGHT SPACER_MR
-#define KM_NAV_3R KC_HOME, KC_PGUP, KC_END SPACER_BR
+#define KM_NAV_3R SPACER_BI KC_HOME, KC_PGUP, KC_END SPACER_BR
 
 #define KM_NAV_1 KM_NAV_1L, KM_NAV_1R
 #define KM_NAV_2 KM_NAV_2L, KM_NAV_2R
@@ -345,9 +309,9 @@ enum fk_keycodes {
 #define KM_NUM_2L SPACER_ML KC_4, KC_5, KC_6
 #define KM_NUM_3L SPACER_BL KC_7, KC_8, KC_9
 
-#define KM_NUM_1R SPACER_TI KC_J, KC_DEL, KC_BSPC SPACER_TR
+#define KM_NUM_1R SPACER_TI KC_NO, KC_DEL, KC_BSPC SPACER_TR
 #define KM_NUM_2R SPACER_MI KC_NO, KC_0, KC_NO SPACER_MR
-#define KM_NUM_3R KC_NUM_INNER_BR, KC_DOT, KC_SLSH SPACER_BR
+#define KM_NUM_3R SPACER_BI KC_NO, KC_DOT, KC_SLSH SPACER_BR
 
 #define KM_NUM_1 KM_NUM_1L, KM_NUM_1R
 #define KM_NUM_2 KM_NUM_2L, KM_NUM_2R
@@ -377,8 +341,8 @@ enum fk_keycodes {
 #define KM_FUNC_3L SPACER_BL KC_F7, KC_F8, KC_F9
 
 #define KM_FUNC_1R SPACER_TI KC_BRIU, KC_VOLU, KC_NO SPACER_TR
-#define KM_FUNC_2R SPACER_MI KC_BRID, KC_VOLD, KC_MUTE SPACER_MR
-#define KM_FUNC_3R SPACER_BI KC_F10, KC_F11, KC_F12 SPACER_BR
+#define KM_FUNC_2R SPACER_MI KC_BRID, KC_VOLD, KC_NO SPACER_MR
+#define KM_FUNC_3R SPACER_BI KC_F10, KC_F11, KC_NO SPACER_BR
 
 #define KM_FUNC_1 KM_FUNC_1L, KM_FUNC_1R
 #define KM_FUNC_2 KM_FUNC_2L, KM_FUNC_2R
@@ -404,7 +368,7 @@ enum fk_keycodes {
 
 #define TEST_LAYOUT_BASE KM_TEST_BASE_1, KM_TEST_BASE_2, KM_TEST_BASE_3, KM_TEST_THUMB_BASE
 
-// Ferris sweep test platform - left fill layer.
+// Ferris sweep test platform - left extended layer.
 
 #define KM_TEST_LEFT_1 TEST_TL KM_EXT_LEFT_1L, TEST_TI KM_EXT_LEFT_1R TEST_TR
 #define KM_TEST_LEFT_2 TEST_ML KM_EXT_LEFT_2L, TEST_MI KM_EXT_LEFT_2R TEST_MR
@@ -413,7 +377,7 @@ enum fk_keycodes {
 
 #define TEST_LAYOUT_EXT_LEFT KM_TEST_LEFT_1, KM_TEST_LEFT_2, KM_TEST_LEFT_3, KM_TEST_THUMB_EXT_LEFT
 
-// Ferris sweep test platform - right fill layer.
+// Ferris sweep test platform - right extended layer.
 
 #define KM_TEST_RIGHT_1 TEST_TL KM_EXT_RIGHT_1L, TEST_TI KM_EXT_RIGHT_1R TEST_TR
 #define KM_TEST_RIGHT_2 TEST_ML KM_EXT_RIGHT_2L, TEST_MI KM_EXT_RIGHT_2R TEST_MR

@@ -36,6 +36,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //   [LAYER_BASE] = FK_LAYOUT_ferris_sweep( LAYOUT_BASE ),
 
 #define FK_LAYOUT_ferris_sweep(...) LAYOUT_split_3x5_2(__VA_ARGS__)
+#define FK_LAYOUT_zilpzalp(...) LAYOUT(__VA_ARGS__)
 
 // Spacing keycodes for non-base layers so they match the base layer format, and
 // Ferris Sweep test platform spacers that fill in the blanks to make up a 3x5+2

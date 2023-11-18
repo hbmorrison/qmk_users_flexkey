@@ -17,6 +17,11 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "flexkey.h"
 
+// State for managing shift-backspace behaviour.
+
+static bool fk_del_registered = false;
+static uint8_t fk_mod_state = 0;
+
 // State of the M_ALT_TAB macro - true if we are currently tabbing between
 // windows.
 
@@ -31,6 +36,14 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     fk_alt_tab_pressed = false;
   }
 
+  // Make sure that we return directly to the base layer when the function layer
+  // key is released. This avoids getting stuck in the left symbol layer which
+  // precedes the function layer keypress.
+
+  if (keycode == KC_FUNC && ! record->event.pressed) {
+    layer_move(LAYER_BASE);
+  }
+
   // Ensure that shift is not pressed when additional layers are active, aside
   // from a few exceptions. This ensures that symbol keypresses will always
   // produce the unshifted symbol, unless explicitly shifted with LSFT() in
@@ -42,9 +55,8 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     switch (keycode) {
       // Allow keys in the extended layers to be shifted.
       case KC_A ... KC_Z:
-      case KC_SLSH:
-      // Allow any other keys used for oneshot layers to be shifted.
       case KC_DOT:
+      case KC_BSPC:
       // Allow tabs to be shifted.
       case KC_TAB:
         break;
@@ -54,7 +66,32 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     }
   }
 
+  // Store the current state of modifiers for shift-backspace behaviour.
+
+  fk_mod_state = get_mods();
+
   switch (keycode) {
+
+    // Shift-backspace issues delete.
+
+    case KC_BSPC:
+      if (record->event.pressed) {
+        if (fk_mod_state & MOD_MASK_SHIFT) {
+          del_mods(MOD_MASK_SHIFT);
+          register_code(KC_DEL);
+          fk_del_registered = true;
+          set_mods(fk_mod_state);
+          return false;
+        }
+      } else {
+        if (fk_del_registered) {
+          unregister_code(KC_DEL);
+          fk_del_registered = false;
+          return false;
+        }
+      }
+      break;
+
 
     // Hold down KC_LALT persistantly to allow tabbing through windows.
 
@@ -90,6 +127,12 @@ uint16_t get_tapping_term(uint16_t keycode, keyrecord_t *record) {
     case KC_SPC_NAV_LAYER:
     case KC_S_EXT_LEFT:
     case KC_E_EXT_RIGHT:
+    case KC_A_SYM_LEFT:
+    case KC_X_SYM_LEFT:
+    case KC_Z_SYM_LEFT:
+    case KC_O_SYM_RIGHT:
+    case KC_DOT_SYM_RIGHT:
+    case KC_SLSH_SYM_RIGHT:
       return TAPPING_TERM_LAYER;
     default:
       return TAPPING_TERM;
@@ -115,8 +158,12 @@ bool caps_word_press_user(uint16_t keycode) {
     // Do not deactivate if the layer keys are held down.
     case KC_S_EXT_LEFT:
     case KC_E_EXT_RIGHT:
-    case KC_SYM_LEFT:
-    case KC_SYM_RIGHT:
+    case KC_A_SYM_LEFT:
+    case KC_X_SYM_LEFT:
+    case KC_Z_SYM_LEFT:
+    case KC_O_SYM_RIGHT:
+    case KC_DOT_SYM_RIGHT:
+    case KC_SLSH_SYM_RIGHT:
       return true;
     // Deactivate caps word by default.
     default:
