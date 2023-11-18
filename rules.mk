@@ -1,9 +1,18 @@
+# Include the userspace code.
+
+SRC += flexkey.c
+
+# This is a bit of a hack to allow combos to be defined in userspace.
+
+INTROSPECTION_KEYMAP_C = fk_combos.c
+
 # Enabled features.
 
 SEND_STRING_ENABLE = yes
 CAPS_WORD_ENABLE = yes
+COMBO_ENABLE = yes
 
-# Add defines for optional features.
+# Add defines for flexkey optional features.
 
 ifeq ($(strip $(FK_TOP_OUTER_KEY)), yes)
   OPT_DEFS += -DFK_TOP_OUTER
