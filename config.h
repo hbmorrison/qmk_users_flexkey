@@ -19,7 +19,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 // Tapping timings.
 
-// #define PERMISSIVE_HOLD
+#define PERMISSIVE_HOLD
 #define TAPPING_TERM_PER_KEY
 #define TAPPING_TERM 190
 #define TAPPING_TERM_MODS 900
