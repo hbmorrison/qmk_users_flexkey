@@ -30,13 +30,25 @@ enum fk_layers {
   LAYER_EXT_RIGHT,
   LAYER_NAV,
   LAYER_NUM,
-  LAYER_FUNC
+  LAYER_FUNC,
+  LAYER_SCUT
 };
 
 // Custom keycodes.
 
 enum fk_keycodes {
-  M_ALT_TAB = SAFE_RANGE
+  M_ALT_TAB = SAFE_RANGE,
+  M_APP1,
+  M_APP2,
+  M_APP3,
+  M_APP4,
+  M_1PASS,
+  M_NDESK,
+  M_PDESK,
+  M_EMOJI,
+  M_4RAND,
+  M_ISCROS,
+  M_ISWIN,
 };
 
 // Alternative keys for UK ISO keyboard layouts.
@@ -52,6 +64,7 @@ enum fk_keycodes {
 // Modified keys.
 
 #define KC_SFT_TAB LSFT(KC_TAB)
+#define KC_CTL_TAB LCTL(KC_TAB)
 
 // Modifier keys in the style of homerow mods.
 
@@ -66,7 +79,6 @@ enum fk_keycodes {
 
 // Layer keys.
 
-#define KC_FUNC MO(LAYER_FUNC)
 #define KC_S_EXT_LEFT LT(LAYER_EXT_LEFT, KC_S)
 #define KC_E_EXT_RIGHT LT(LAYER_EXT_RIGHT, KC_E)
 #define KC_A_SYM_LEFT LT(LAYER_SYM_LEFT, KC_A)
@@ -77,6 +89,8 @@ enum fk_keycodes {
 #define KC_SLSH_SYM_RIGHT LT(LAYER_SYM_RIGHT, KC_SLSH)
 #define KC_SPC_NAV_LAYER LT(LAYER_NAV, KC_SPC)
 #define KC_ENT_NUM_LAYER LT(LAYER_NUM, KC_ENT)
+#define KC_FUNC_LAYER MO(LAYER_FUNC)
+#define KC_SCUT_LAYER OSL(LAYER_SCUT)
 
 // Logic for the inner and outer parts of the layout.
 
@@ -254,7 +268,7 @@ enum fk_keycodes {
 #define KM_SYM_LEFT_2L SPACER_ML KC_NO, KC_PLUS, KC_COLN
 #define KM_SYM_LEFT_3L SPACER_BL KC_NO, KC_EQL, KC_SCLN
 
-#define KM_SYM_LEFT_1R SPACER_TI KC_AMPR, KC_ASTR, KC_FUNC SPACER_TR
+#define KM_SYM_LEFT_1R SPACER_TI KC_AMPR, KC_ASTR, KC_FUNC_LAYER SPACER_TR
 #define KM_SYM_LEFT_2R SPACER_MI KC_UK_AT, KC_UK_TILDE, KC_UNDS SPACER_MR
 #define KM_SYM_LEFT_3R SPACER_BI KC_QUOT, KC_UK_HASH, KC_MINS SPACER_BR
 
@@ -292,7 +306,7 @@ enum fk_keycodes {
 
 #define KM_NAV_1L SPACER_TL KC_ESC, KC_PSCR, KC_NO
 #define KM_NAV_2L SPACER_ML KC_TAB, M_ALT_TAB, KC_NO
-#define KM_NAV_3L SPACER_BL KC_CAPS, KC_PGDN, KC_NO
+#define KM_NAV_3L SPACER_BL KC_CAPS, KC_PGDN, KC_TRNS
 
 #define KM_NAV_1R SPACER_TI LCTL(LGUI(KC_LEFT)), KC_UP, LCTL(LGUI(KC_RGHT)) SPACER_TR
 #define KM_NAV_2R SPACER_MI KC_LEFT, KC_DOWN, KC_RGHT SPACER_MR
@@ -327,7 +341,7 @@ enum fk_keycodes {
 
 #define KM_NUM_1R SPACER_TI KC_NO, KC_DEL, KC_BSPC SPACER_TR
 #define KM_NUM_2R SPACER_MI KC_NO, KC_0, KC_NO SPACER_MR
-#define KM_NUM_3R SPACER_BI KC_NO, KC_DOT, KC_SLSH SPACER_BR
+#define KM_NUM_3R SPACER_BI KC_TRNS, KC_DOT, KC_SLSH SPACER_BR
 
 #define KM_NUM_1 KM_NUM_1L, KM_NUM_1R
 #define KM_NUM_2 KM_NUM_2L, KM_NUM_2R
@@ -350,7 +364,7 @@ enum fk_keycodes {
 #define LAYOUT_NUM KM_NUM_1, KM_NUM_2, KM_NUM_3
 #endif
 
-// Shortcut layer for flexkey layouts.
+// Function layer for flexkey layouts.
 
 #define KM_FUNC_1L SPACER_TL KC_F1, KC_F2, KC_F3
 #define KM_FUNC_2L SPACER_ML KC_F4, KC_F5, KC_F6
@@ -368,6 +382,26 @@ enum fk_keycodes {
 #define LAYOUT_FUNC KM_FUNC_1, KM_FUNC_2, KM_FUNC_3, KM_THUMB_TRNS
 #else
 #define LAYOUT_FUNC KM_FUNC_1, KM_FUNC_2, KM_FUNC_3
+#endif
+
+// Shortcut layer for flexkey layouts.
+
+#define KM_SCUT_1L SPACER_TL M_ISWIN, M_ISCROS, KC_NO
+#define KM_SCUT_2L SPACER_ML M_APP1, M_APP2, KC_NO
+#define KM_SCUT_3L SPACER_BL M_PDESK, M_1PASS, KC_TRNS
+
+#define KM_SCUT_1R SPACER_TI KC_NO, KC_NO, M_4RAND SPACER_TR
+#define KM_SCUT_2R SPACER_MI KC_NO, M_APP3, M_APP4 SPACER_MR
+#define KM_SCUT_3R SPACER_BI KC_TRNS, M_EMOJI, M_NDESK SPACER_BR
+
+#define KM_SCUT_1 KM_SCUT_1L, KM_SCUT_1R
+#define KM_SCUT_2 KM_SCUT_2L, KM_SCUT_2R
+#define KM_SCUT_3 KM_SCUT_3L, KM_SCUT_3R
+
+#ifdef FK_THUMB_INNER
+#define LAYOUT_SCUT KM_SCUT_1, KM_SCUT_2, KM_SCUT_3, KM_THUMB_TRNS
+#else
+#define LAYOUT_SCUT KM_SCUT_1, KM_SCUT_2, KM_SCUT_3
 #endif
 
 // Ferris sweep test platform - base layer.
@@ -456,5 +490,14 @@ enum fk_keycodes {
 #define KM_FERRIS_THUMB_FUNC KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS
 
 #define FERRIS_LAYOUT_FUNC KM_FERRIS_FUNC_1, KM_FERRIS_FUNC_2, KM_FERRIS_FUNC_3, KM_FERRIS_THUMB_FUNC
+
+// Ferris sweep test platform - shortcut layer.
+
+#define KM_FERRIS_SCUT_1 TEST_TL KM_SCUT_1L, TEST_TI KM_SCUT_1R TEST_TR
+#define KM_FERRIS_SCUT_2 TEST_ML KM_SCUT_2L, TEST_MI KM_SCUT_2R TEST_MR
+#define KM_FERRIS_SCUT_3 TEST_BL KM_SCUT_3L, TEST_BI KM_SCUT_3R TEST_BR
+#define KM_FERRIS_THUMB_SCUT KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS
+
+#define FERRIS_LAYOUT_SCUT KM_FERRIS_SCUT_1, KM_FERRIS_SCUT_2, KM_FERRIS_SCUT_3, KM_FERRIS_THUMB_SCUT
 
 #endif // USERSPACE
