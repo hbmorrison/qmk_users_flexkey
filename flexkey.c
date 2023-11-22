@@ -27,11 +27,6 @@ void hypr_or_alt(char *ss, bool pressed);
 
 static bool fk_is_chromebook = false;
 
-// State for managing shift-backspace behaviour.
-
-static bool fk_del_registered = false;
-static uint8_t fk_mod_state = 0;
-
 // State of the M_ALT_TAB macro - true if we are currently tabbing between
 // windows.
 
@@ -48,14 +43,6 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
   if (keycode != M_ALT_TAB && fk_alt_tab_pressed) {
     unregister_code(KC_LALT);
     fk_alt_tab_pressed = false;
-  }
-
-  // Make sure that we return directly to the base layer when the function layer
-  // key is released. This avoids getting stuck in the left symbol layer which
-  // precedes the function layer keypress.
-
-  if (keycode == KC_FUNC_LAYER && ! record->event.pressed) {
-    layer_move(LAYER_BASE);
   }
 
   // Ensure that shift is not pressed when additional layers are active, aside
@@ -80,31 +67,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     }
   }
 
-  // Store the current state of modifiers for shift-backspace behaviour.
-
-  fk_mod_state = get_mods();
-
   switch (keycode) {
-
-    // Shift-backspace issues delete.
-
-    case KC_BSPC:
-      if (record->event.pressed) {
-        if (fk_mod_state & MOD_MASK_SHIFT) {
-          del_mods(MOD_MASK_SHIFT);
-          register_code(KC_DEL);
-          fk_del_registered = true;
-          set_mods(fk_mod_state);
-          return false;
-        }
-      } else {
-        if (fk_del_registered) {
-          unregister_code(KC_DEL);
-          fk_del_registered = false;
-          return false;
-        }
-      }
-      break;
 
     // Hold down KC_LALT persistantly to allow tabbing through windows.
 
@@ -244,16 +207,15 @@ uint16_t get_tapping_term(uint16_t keycode, keyrecord_t *record) {
     case KC_Y_ALT:
       return TAPPING_TERM_MODS;
     // Set the tapping term for layer keys.
-    case KC_ENT_NUM_LAYER:
-    case KC_SPC_NAV_LAYER:
-    case KC_S_EXT_LEFT:
-    case KC_E_EXT_RIGHT:
-    case KC_A_SYM_LEFT:
     case KC_X_SYM_LEFT:
-    case KC_Z_SYM_LEFT:
-    case KC_O_SYM_RIGHT:
+    case KC_S_EXT_LEFT:
+    case KC_F_CTRLS:
+    case KC_U_FUNC:
+    case KC_E_EXT_RIGHT:
     case KC_DOT_SYM_RIGHT:
-    case KC_SLSH_SYM_RIGHT:
+    case KC_ENT_NUM:
+    case KC_SPC_NAV:
+    case KC_SCUT:
       return TAPPING_TERM_LAYER;
     default:
       return TAPPING_TERM;
@@ -277,14 +239,10 @@ bool caps_word_press_user(uint16_t keycode) {
     case KC_UNDS:
       return true;
     // Do not deactivate if the layer keys are held down.
+    case KC_X_SYM_LEFT:
     case KC_S_EXT_LEFT:
     case KC_E_EXT_RIGHT:
-    case KC_A_SYM_LEFT:
-    case KC_X_SYM_LEFT:
-    case KC_Z_SYM_LEFT:
-    case KC_O_SYM_RIGHT:
     case KC_DOT_SYM_RIGHT:
-    case KC_SLSH_SYM_RIGHT:
       return true;
     // Deactivate caps word by default.
     default:
@@ -295,7 +253,7 @@ bool caps_word_press_user(uint16_t keycode) {
 uint16_t get_combo_term(uint16_t index, combo_t *combo) {
   switch (combo->keycode) {
     case CW_TOGG:
-    case KC_SCUT_LAYER:
+    case KC_SCUT:
       return COMBO_TERM_CROSS_SPLIT;
     default:
       return COMBO_TERM;

@@ -4,4 +4,4 @@ USER_NAME := flexkey
 
 FK_MIDDLE_OUTER_KEY = yes
 FK_INNER_KEYS = top
-FK_THUMB_KEYS = 2
+FK_TWO_THUMBKEYS = yes

@@ -14,8 +14,6 @@ COMBO_ENABLE = yes
 
 # Add defines for flexkey optional features.
 
-OPT_DEFS += -DFK_EXT_SAME_SIDE
-
 ifeq ($(strip $(FK_TOP_OUTER_KEY)), yes)
   OPT_DEFS += -DFK_TOP_OUTER
 endif
@@ -40,10 +38,11 @@ ifeq ($(strip $(FK_INNER_KEYS)), all)
   OPT_DEFS += -DFK_TOP_INNER -DFK_MDL_INNER -DFK_BTM_INNER
 endif
 
-ifeq ($(strip $(FK_THUMB_KEYS)), 1)
-  OPT_DEFS += -DFK_THUMB_INNER
+ifeq ($(strip $(FK_TWO_THUMBKEYS)), yes)
+  OPT_DEFS += -DFK_TWO_THUMBKEYS
 endif
 
-ifeq ($(strip $(FK_THUMB_KEYS)), 2)
-  OPT_DEFS += -DFK_THUMB_INNER -DFK_THUMB_OUTER
+ifeq ($(strip $(FK_COMBOS_ON)), yes)
+  OPT_DEFS += -DFK_COMBOS_ON
 endif
+
