@@ -19,4 +19,36 @@ functionality is defined in the `flexkey` userspace.
 
 ### Base Layer
 
+![Base Layer](https://imgur.com/PMj8RcF)
 
+![Expanded Keys](https://imgur.com/EJFFU1D)
+
+![Combo Keys](https://imgur.com/lFbG5OJ)
+
+### Extended Layers
+
+![Left Extended Layer](https://imgur.com/CIfiREC)
+
+![Right Extended Layer](https://imgur.com/f7jQQks)
+
+### Symbol Layers
+
+![Left Symbol Layer](https://imgur.com/qbKbRoE)
+
+![Right Symbol Layer](https://imgur.com/4nGDk28)
+
+### Numbers and Navigation Layers
+
+![Navigation Layer](https://imgur.com/SmcMxuX)
+
+![Number Layer](https://imgur.com/wxQAttu)
+
+### Shortcut Layer
+
+![Shortcut Layer](https://imgur.com/kGkNnge)
+
+### Controls and Function Key Layers
+
+![Controls Layer](https://imgur.com/924aGdG)
+
+![Function Keys Layer](https://imgur.com/nK6Pbla)
