@@ -15,12 +15,26 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
+#include "stdio.h"
 #include "flexkey.h"
+
+// Issues HYPR-keypress for Windows and ALT-keypress for ChromeOS.
+
+void hypr_or_alt(char *ss, bool pressed);
+
+// Defines whether to issue Windows or ChromeOS keypresses from macros - Windows
+// by default.
+
+static bool fk_is_chromebook = false;
 
 // State of the M_ALT_TAB macro - true if we are currently tabbing between
 // windows.
 
 static bool fk_alt_tab_pressed = false;
+
+// True if rand() has already been seeded using srand().
+
+static bool fk_srand_seeded = false;
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 
@@ -42,9 +56,8 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     switch (keycode) {
       // Allow keys in the extended layers to be shifted.
       case KC_A ... KC_Z:
-      case KC_SLSH:
-      // Allow any other keys used for oneshot layers to be shifted.
       case KC_DOT:
+      case KC_BSPC:
       // Allow tabs to be shifted.
       case KC_TAB:
         break;
@@ -68,6 +81,114 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
       }
       break;
 
+    // Application switching macros.
+
+    case M_APP1:
+      hypr_or_alt(SS_TAP(X_1), record->event.pressed);
+      break;
+    case M_APP2:
+      hypr_or_alt(SS_TAP(X_2), record->event.pressed);
+      break;
+    case M_APP3:
+      hypr_or_alt(SS_TAP(X_3), record->event.pressed);
+      break;
+    case M_APP4:
+      hypr_or_alt(SS_TAP(X_4), record->event.pressed);
+      break;
+
+    // Launch 1Password - in ChromeOS, switch to the browser before issuing
+    // shortcut keypress.
+
+    case M_1PASS:
+      if (record->event.pressed) {
+        if (fk_is_chromebook) {
+          SEND_STRING(SS_DOWN(X_LALT)SS_TAP(X_1)SS_UP(X_LALT));
+          SEND_STRING(SS_DELAY(100));
+          SEND_STRING(SS_DOWN(X_LSFT)SS_DOWN(X_LCTL));
+          SEND_STRING(SS_TAP(X_X));
+          SEND_STRING(SS_UP(X_LCTL)SS_UP(X_LSFT));
+        } else {
+          SEND_STRING(SS_DOWN(X_LSFT)SS_DOWN(X_LCTL));
+          SEND_STRING(SS_TAP(X_SPC));
+          SEND_STRING(SS_UP(X_LCTL)SS_UP(X_LSFT));
+        }
+      }
+      break;
+
+    // Switch between virtual desktops.
+
+    case M_NDESK:
+      if (record->event.pressed) {
+        if (fk_is_chromebook) {
+          SEND_STRING(SS_DOWN(X_LGUI));
+          SEND_STRING(SS_TAP(X_RBRC));
+          SEND_STRING(SS_UP(X_LGUI));
+        } else {
+          SEND_STRING(SS_DOWN(X_LCTL)SS_DOWN(X_LGUI));
+          SEND_STRING(SS_TAP(X_RGHT));
+          SEND_STRING(SS_UP(X_LGUI)SS_UP(X_LCTL));
+        }
+      }
+      break;
+    case M_PDESK:
+      if (record->event.pressed) {
+        if (fk_is_chromebook) {
+          SEND_STRING(SS_DOWN(X_LGUI));
+          SEND_STRING(SS_TAP(X_LBRC));
+          SEND_STRING(SS_UP(X_LGUI));
+        } else {
+          SEND_STRING(SS_DOWN(X_LCTL)SS_DOWN(X_LGUI));
+          SEND_STRING(SS_TAP(X_LEFT));
+          SEND_STRING(SS_UP(X_LGUI)SS_UP(X_LCTL));
+        }
+      }
+      break;
+
+    // Open the emoji window.
+
+    case M_EMOJI:
+      if (record->event.pressed) {
+        if (fk_is_chromebook) {
+          SEND_STRING(SS_DOWN(X_LSFT)SS_DOWN(X_LGUI));
+          SEND_STRING(SS_TAP(X_SPC));
+          SEND_STRING(SS_UP(X_LGUI)SS_UP(X_LSFT));
+        } else {
+          SEND_STRING(SS_DOWN(X_LGUI)SS_TAP(X_SCLN)SS_UP(X_LGUI));
+        }
+      }
+      break;
+
+    // Types out a four-digit pseudo-random number.
+
+    case M_4RAND:
+      if (record->event.pressed) {
+        if (fk_srand_seeded == false) {
+#if defined(__AVR_ATmega32U4__)
+          srand(TCNT0 + TCNT1 + TCNT3 + TCNT4);
+#else
+          srand(timer_read32());
+#endif
+          fk_srand_seeded = true;
+        }
+        char rand_string[6];
+        sprintf(rand_string, "%d", rand() % 10000 + 1000);
+        SEND_STRING(rand_string);
+      }
+      break;
+
+    // Swap between Windows and ChromeOS macro keypresses.
+
+    case M_ISCROS:
+      if (record->event.pressed) {
+        fk_is_chromebook = true;
+      }
+      break;
+    case M_ISWIN:
+      if (record->event.pressed) {
+        fk_is_chromebook = false;
+      }
+      break;
+
   }
 
   return true;
@@ -86,10 +207,15 @@ uint16_t get_tapping_term(uint16_t keycode, keyrecord_t *record) {
     case KC_Y_ALT:
       return TAPPING_TERM_MODS;
     // Set the tapping term for layer keys.
-    case KC_ENT_NUM_LAYER:
-    case KC_SPC_NAV_LAYER:
+    case KC_X_SYM_LEFT:
     case KC_S_EXT_LEFT:
+    case KC_F_CTRLS:
+    case KC_U_FUNC:
     case KC_E_EXT_RIGHT:
+    case KC_DOT_SYM_RIGHT:
+    case KC_ENT_NUM:
+    case KC_SPC_NAV:
+    case KC_SCUT:
       return TAPPING_TERM_LAYER;
     default:
       return TAPPING_TERM;
@@ -113,14 +239,42 @@ bool caps_word_press_user(uint16_t keycode) {
     case KC_UNDS:
       return true;
     // Do not deactivate if the layer keys are held down.
+    case KC_X_SYM_LEFT:
     case KC_S_EXT_LEFT:
     case KC_E_EXT_RIGHT:
-    case KC_SYM_LEFT:
-    case KC_SYM_RIGHT:
+    case KC_DOT_SYM_RIGHT:
       return true;
     // Deactivate caps word by default.
     default:
       return false;
+  }
+}
+
+uint16_t get_combo_term(uint16_t index, combo_t *combo) {
+  switch (combo->keycode) {
+    case CW_TOGG:
+    case KC_SCUT:
+      return COMBO_TERM_CROSS_SPLIT;
+    default:
+      return COMBO_TERM;
+  }
+}
+
+// Issues HYPR-keycode for Windows, for AutoHotkey to interpret, and ALT-keycode
+// for ChromeOS, which launches the n'th app on the task bar.
+
+void hypr_or_alt(char *ss, bool pressed) {
+  if (pressed) {
+    if (fk_is_chromebook) {
+      SEND_STRING(SS_DOWN(X_LALT));
+      SEND_STRING(ss);
+      SEND_STRING(SS_UP(X_LALT));
+    } else {
+      SEND_STRING(SS_DOWN(X_LSFT)SS_DOWN(X_LCTL)SS_DOWN(X_LALT)SS_DOWN(X_LGUI));
+      SEND_STRING(ss);
+      SEND_STRING(SS_UP(X_LALT));
+      SEND_STRING(SS_UP(X_LGUI)SS_UP(X_LALT)SS_UP(X_LCTL)SS_UP(X_LSFT));
+    }
   }
 }
 
