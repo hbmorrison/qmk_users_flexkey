@@ -196,10 +196,10 @@ enum fk_keycodes {
 
 #ifdef FK_TWO_THUMBKEYS
 #define KM_NAV_THUMB_L KC_NO, KC_TRNS
-#define KM_NAV_THUMB_R KC_ESC, KC_NO
+#define KM_NAV_THUMB_R KC_SCUT, KC_NO
 #else
 #define KM_NAV_THUMB_L KC_TRNS
-#define KM_NAV_THUMB_R KC_ESC
+#define KM_NAV_THUMB_R KC_SCUT
 #endif
 
 #define KM_NAV_THUMB KM_NAV_THUMB_L, KM_NAV_THUMB_R
@@ -221,10 +221,10 @@ enum fk_keycodes {
 #define KM_NUM_3 KM_NUM_3L, KM_NUM_3R
 
 #ifdef FK_TWO_THUMBKEYS
-#define KM_NUM_THUMB_L KC_SFT_TAB, KC_TAB
+#define KM_NUM_THUMB_L KC_NO, KC_SCUT
 #define KM_NUM_THUMB_R KC_TRNS, KC_NO
 #else
-#define KM_NUM_THUMB_L KC_TAB
+#define KM_NUM_THUMB_L KC_SCUT
 #define KM_NUM_THUMB_R KC_TRNS
 #endif
 

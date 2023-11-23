@@ -19,36 +19,36 @@ functionality is defined in the `flexkey` userspace.
 
 ### Base Layer
 
-![Base Layer](https://i.imgur.com/PMj8RcF.png)
+![Base Layer](https://i.imgur.com/nLQrqOY.png)
 
-![Expanded Keys](https://i.imgur.com/EJFFU1D.png)
+![Expanded Keys](https://i.imgur.com/Xh5wUOa.png)
 
-![Combo Keys](https://i.imgur.com/lFbG5OJ.png)
+![Combo Keys](https://i.imgur.com/mH2OTHz.png)
 
 ### Extended Layers
 
-![Left Extended Layer](https://i.imgur.com/CIfiREC.png)
+![Left Extended Layer](https://i.imgur.com/FjGpWcJ.png)
 
-![Right Extended Layer](https://i.imgur.com/f7jQQks.png)
+![Right Extended Layer](https://i.imgur.com/PRYGj08.png)
 
 ### Symbol Layers
 
-![Left Symbol Layer](https://i.imgur.com/qbKbRoE.png)
+![Left Symbol Layer](https://i.imgur.com/VJQwVqO.png)
 
-![Right Symbol Layer](https://i.imgur.com/4nGDk28.png)
+![Right Symbol Layer](https://i.imgur.com/l9g2RZT.png)
 
 ### Numbers and Navigation Layers
 
-![Navigation Layer](https://i.imgur.com/SmcMxuX.png)
+![Navigation Layer](https://i.imgur.com/mB7kndf.png)
 
-![Number Layer](https://i.imgur.com/wxQAttu.png)
+![Number Layer](https://i.imgur.com/fN343YE.png)
 
 ### Shortcut Layer
 
-![Shortcut Layer](https://i.imgur.com/kGkNnge.png)
+![Shortcut Layer](https://i.imgur.com/hr0KIXp.png)
 
 ### Controls and Function Key Layers
 
-![Controls Layer](https://i.imgur.com/924aGdG.png)
+![Controls Layer](https://i.imgur.com/pPfUDTk.png)
 
-![Function Keys Layer](https://i.imgur.com/nK6Pbla.png)
+![Function Keys Layer](https://i.imgur.com/liex7sS.png)
