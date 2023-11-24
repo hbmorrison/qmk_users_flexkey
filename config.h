@@ -40,10 +40,16 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define DOUBLE_TAP_SHIFT_TURNS_ON_CAPS_WORD
 #define CAPS_WORD_IDLE_TIMEOUT 10000 // ten seconds
 
+// Enable nice scroll wheel emulation.
+
+#define MOUSEKEY_WHEEL_DELAY 100
+#define MOUSEKEY_WHEEL_INTERVAL 70
+#define MOUSEKEY_WHEEL_TIME_TO_MAX 80
+
 // Layout macros that allow preprocessor substitutions. Use these instead of the
 // standard LAYOUT_ macros in keymap.c code. For example, the following will
-// define the base layer for a Ferris Sweep keyboard:
-//   [LAYER_BASE] = FK_LAYOUT_ferris_sweep( LAYOUT_BASE ),
+// define the base layer for a Ferris Sweep keyboard: [LAYER_BASE] =
+// FK_LAYOUT_ferris_sweep( LAYOUT_BASE ),
 
 #define FK_LAYOUT_ferris_sweep(...) LAYOUT_split_3x5_2(__VA_ARGS__)
 #define FK_LAYOUT_planck(...) LAYOUT_planck_grid(__VA_ARGS__)

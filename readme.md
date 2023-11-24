@@ -119,12 +119,13 @@ left-handed). Some useful keys are replicated on the right side of the layers.
 The controls and function layers gather together media keys and function keys
 respectively.
 
-![Controls Layer](https://i.imgur.com/EjEdnBC.png)
+![Controls Layer](https://i.imgur.com/l5A8Icp.png)
 
 ![Function Layer](https://i.imgur.com/1pMgyaz.png)
 
-The function layer also has keys for the left and right mouse buttons, which can
-be used with a trackball operated by your left thumb.
+The function layer has keys for the left and right mouse buttons and the
+controls layer has keys for scroll up and scroll down, which can be used with a
+trackball operated by your thumb.
 
 ### Shortcut Layer
 
