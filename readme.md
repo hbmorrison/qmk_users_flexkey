@@ -11,9 +11,8 @@ This git repository should be copied or cloned into the `users/flexkey/` folder
 in the QMK firmware, or it can be added as a submodule. The `install_keymaps.sh`
 script will install keymaps into several supported keyboards, which can then be
 compiled. The `flexkey` keymap files are small and can be copied into other
-keyboard keymap folders, and the exact configuration of the keymap can be
-adjusted by editing variables in the `rules.mk` file. Almost all of the
-functionality is defined in the `flexkey` userspace.
+keyboard `keymap/` subfolders, and the exact configuration of the keymap can be
+adjusted by editing variables in the `rules.mk` file.
 
 ## Core Functionality
 
@@ -44,7 +43,11 @@ The second way is to use combos.
 ![Combo Keys](https://i.imgur.com/mH2OTHz.png)
 
 Combos make the outer keys available by pressing two adjacent keys at the same
-time.
+time. For example, `K` is accessed by pressing the `H` and `Comma` keys
+together.
+
+Note that the QMK `Caps Word` feature can be toggled by pressing both shift
+modifier keys - `T` and `N` - together as a combo.
 
 The final way is to use a larger keyboard (most keyboards) and expand the keymap
 to use them, by setting variables in the `rules.mk` file.
@@ -69,7 +72,8 @@ the following variable is defined:
 
 Finally the number of thumb keys per side can be increased:
 
-- **FK_TWO_THUMBKEYS = yes** enables two thumb keys per side of the keyboard
+- **FK_TWO_THUMBKEYS = yes** enables two thumb keys per side of the keyboard,
+  adding `Shift` and `Backspace` thumb keys alongside `Space` and `Enter`.
 
 ### Symbol Layers
 
@@ -127,14 +131,3 @@ The shortcut layer is activated using a combo, by pressing the `Space` and
 `Enter` keys at the same time. The layer is also activated if one of those keys
 is pressed while the other is held down, so you can be relaxed about exactly how
 the keys are pressed.
-
-## Observations
-
-### Vim Movement
-
-In Colemak DH the default cursor keys for Vim - `H`, `J`, `K` and `L`
-- appear on the top- and bottom-left keys on the right side of the keyboard.
-This means that these two keys will move you left and right by default and up
-and down with the left extended layer key pressed. Ok, top-left moves you down
-not up but you get used to it and it saves remapping keys in `.vimrc` files on
-remote hosts.
