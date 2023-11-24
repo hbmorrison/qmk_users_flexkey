@@ -11,10 +11,13 @@ little as 18 keys with 2 thumb keys and can be expanded from there.
 
 This git repository should be copied or cloned into the `users/flexkey/` folder
 in the QMK firmware, or it can be added as a submodule. The `install_keymaps.sh`
-script will install keymaps into several supported keyboards, which can then be
-compiled. The `flexkey` keymap files are small and can be copied into other
-keyboard `keymap/` subfolders, and the exact configuration of the keymap can be
-adjusted by editing variables in the `rules.mk` file.
+script will install exemplar keymaps into several supported keyboards, which can
+then be compiled.
+
+The keymaps comprise a `rules.mk` file and a small `keymap.c` file that is
+responsible for adding layer mappings. These can be copied into other keyboard
+`keymap/` subfolders and the exact configuration of the keymap can be adjusted
+to suit by editing variables in the `rules.mk` file.
 
 ## Core Functionality
 
@@ -23,13 +26,13 @@ adjusted by editing variables in the `rules.mk` file.
 The base layer is made up of the middle three columns of a Colemak-DH layout.
 Most of the keys also operate as modifiers or layer keys if held down. In
 addition, the shortcut layer can be accessed by tapping the two thumb keys at
-the same time, and the QMK Caps Word feature can be toggled by tapping the two
+the same time and the QMK Caps Word feature can be toggled by tapping the two
 shift modifier keys at the same time.
 
 ![Default Combo Keys](https://i.imgur.com/2vaVXIW.png)
 
 There are a number of ways to access the rest of the Colemak-DH keys. The first
-way is to use the extended layers, accessed with the middle `S` and `E` keys.
+way is to use the middle `S` and `E` keys to access the extended layers.
 
 ![Left Extended Layer](https://i.imgur.com/a6SBT3U.png)
 
@@ -52,8 +55,8 @@ Combos make the outer keys available by pressing two adjacent keys at the same
 time. For example, `K` is accessed by pressing the `H` and `,` keys together,
 and `/` is accessed by pressing the `,` and `.` keys together.
 
-The final way is to use a larger keyboard (most keyboards) and expand the keymap
-to use them, by setting variables in the `rules.mk` file.
+The final way is to use a larger keyboard and expand the keymap to use them by
+setting variables in the `rules.mk` file.
 
 ![Expanded Keys](https://i.imgur.com/Xh5wUOa.png)
 
@@ -83,7 +86,7 @@ Finally the number of thumb keys per side can be increased:
 ### Symbol Layers
 
 Both symbol layers put the symbols associated with the shifted number keys on
-the top row, in their correct finger positions as much as possible.
+the top row in their correct finger positions,  as much as possible.
 
  ![Left Symbol Layer](https://i.imgur.com/PKImXjQ.png)
 
@@ -125,9 +128,9 @@ be used with a trackball operated by your left thumb.
 
 ### Shortcut Layer
 
-Finally the shortcut layer provides a number of macros to work with applications
-on Windows and ChromeOS. This layer is tailored to my work and may be of limited
-use to other people without modifications.
+Finally the shortcut layer provides a number of macros that work with
+applications on Windows and ChromeOS. This layer is tailored to my work and may
+be of limited use to other people without modifications.
 
 The Windows macros mostly rely on an AutoHotkey script (included in this repo)
 whereas on ChromeOS applications are launched based on their postion on the
@@ -141,9 +144,9 @@ settings).
 By default the keyboard will start in Windows mode, but the mode can be changed
 at any time with the `Win` and `CROS` keys.
 
-![Shortcut Layer](https://i.imgur.com/hr0KIXp.png)
+![Shortcut Layer](https://i.imgur.com/O9h9DEv.png)
 
-The shortcut layer is activated using a combo, by pressing the `Space` and
+As mentioned above, the shortcut layer is activated by tapping the `Space` and
 `Enter` keys at the same time. The layer is also activated if one of those keys
-is pressed while the other is held down, so you can be relaxed about exactly how
+is tapped while the other is held down, so you can be relaxed about exactly how
 the keys are pressed.
