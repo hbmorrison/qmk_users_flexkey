@@ -11,6 +11,7 @@ INTROSPECTION_KEYMAP_C = fk_combos.c
 SEND_STRING_ENABLE = yes
 CAPS_WORD_ENABLE = yes
 COMBO_ENABLE = yes
+MOUSEKEY_ENABLE = yes
 
 # Add defines for flexkey optional features.
 

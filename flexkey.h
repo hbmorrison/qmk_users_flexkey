@@ -250,8 +250,8 @@ enum fk_keycodes {
 
 // Controls layer for flexkey layouts.
 
-#define KM_CTRLS_1L SPACER_TL KC_NO, KC_TRNS, KC_NO
-#define KM_CTRLS_2L SPACER_ML KC_NO, KC_NO, KC_NO
+#define KM_CTRLS_1L SPACER_TL KC_NO, KC_TRNS, KC_WH_D
+#define KM_CTRLS_2L SPACER_ML KC_NO, KC_NO, KC_WH_U
 #define KM_CTRLS_3L SPACER_BL KC_NO, KC_NO, KC_NO
 
 #define KM_CTRLS_1R SPACER_TI KC_BRIU, KC_VOLU, KC_MPLY SPACER_TR
