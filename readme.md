@@ -34,6 +34,11 @@ The `S` key makes the outer columns on the right side of the keyboard available
 and the `E` key makes the outer columns on the left side of the keyboard
 available.
 
+The modifier keys are organised vertically on the outside columns so that they
+can be pressed along with the extended layer keys. The extended layers also
+define the corresponding modifier keys in the same places, so you can be relaxed
+about when you hold down modifiers in relation to the layer keys themselves.
+
 The second way is to use combos.
 
 ![Combo Keys](https://i.imgur.com/mH2OTHz.png)
@@ -66,27 +71,70 @@ Finally the number of thumb keys per side can be increased:
 
 - **FK_TWO_THUMBKEYS = yes** enables two thumb keys per side of the keyboard
 
-Modifiers are organised vertically on the outside columns so that they can be
-pressed along with the extended layer keys, `S` and `E`.
-
 ### Symbol Layers
 
-![Left Symbol Layer](https://i.imgur.com/VJQwVqO.png)
+Both symbol layers put the symbols associated with the shifted number keys on
+the top row.
+
+ ![Left Symbol Layer](https://i.imgur.com/VJQwVqO.png)
+
+The left symbol layer gathers the pairs of symbols that would normally appear on
+the right side of a standard UK ISO keyboard.
 
 ![Right Symbol Layer](https://i.imgur.com/l9g2RZT.png)
+
+The right symbol layer gathers the brackets, braces and parentheses. The
+backslash and pipe symbols appear on the left, echoing where that key appears on
+a UK ISO keyboard.
 
 ### Numbers and Navigation Layers
 
 ![Navigation Layer](https://i.imgur.com/mB7kndf.png)
 
+The navigation layer gathers navigation related keys together. The right side of
+the layer has the arrow keys and related keys, along with some useful navigation
+macros. The left side has the three non-alphanumeric keys found on the left of a
+standard keyboard - `Esc`, `Tab` and `Caps Lock` - as well as modified `Tab`
+keys for convenience.
+
 ![Number Layer](https://i.imgur.com/fN343YE.png)
 
-### Shortcut Layer
+The number layer arranges the number keys in keypad format on the left side (I'm
+left-handed). Some useful keys are replicated on the right side of the layers.
 
-![Shortcut Layer](https://i.imgur.com/hr0KIXp.png)
+### Controls and Function Layers
 
-### Controls and Function Key Layers
+The controls and function layers gather together media keys and function keys
+respectively.
 
 ![Controls Layer](https://i.imgur.com/pPfUDTk.png)
 
 ![Function Keys Layer](https://i.imgur.com/liex7sS.png)
+
+### Shortcut Layer
+
+Finally the shortcut layer provides a number of macros to work with applications
+on Windows and ChromeOS. This layer is fairly tailored to my work.
+
+The Windows macros rely on an AutoHotkey script (included in this repo) whereas
+on ChromeOS applications are launched based on their postion on the shelf. By
+default the keyboard will start in Windows mode, but the mode can be changed at
+any time with the `Win` and `CROS` keys.
+
+![Shortcut Layer](https://i.imgur.com/hr0KIXp.png)
+
+The shortcut layer is activated using a combo, by pressing the `Space` and
+`Enter` keys at the same time. The layer is also activated if one of those keys
+is pressed while the other is held down, so you can be relaxed about exactly how
+the keys are pressed.
+
+## Observations
+
+### Vim Movement
+
+In Colemak DH the default cursor keys for Vim - `H`, `J`, `K` and `L`
+- appear on the top- and bottom-left keys on the right side of the keyboard.
+This means that these two keys will move you left and right by default and up
+and down with the left extended layer key pressed. Ok, top-left moves you down
+not up but you get used to it and it saves remapping keys in `.vimrc` files on
+remote hosts.
