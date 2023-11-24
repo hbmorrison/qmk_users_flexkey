@@ -23,7 +23,7 @@ adjusted by editing variables in the `rules.mk` file.
 The base layer is made up of the middle three columns of a Colemak-DH layout.
 Most of the keys also operate as modifiers or layer keys if held down. In
 addition, the shortcut layer can be accessed by tapping the two thumb keys at
-the same time, and the QMK `Caps Word` feature can be toggled by tapping the two
+the same time, and the QMK Caps Word feature can be toggled by tapping the two
 shift modifier keys at the same time.
 
 ![Default Combo Keys](https://i.imgur.com/2vaVXIW.png)
@@ -31,9 +31,9 @@ shift modifier keys at the same time.
 There are a number of ways to access the rest of the Colemak-DH keys. The first
 way is to use the extended layers, accessed with the middle `S` and `E` keys.
 
-![Left Extended Layer](https://i.imgur.com/FjGpWcJ.png)
+![Left Extended Layer](https://i.imgur.com/a6SBT3U.png)
 
-![Right Extended Layer](https://i.imgur.com/PRYGj08.png)
+![Right Extended Layer](https://i.imgur.com/k1ppSYW.png)
 
 The `S` key makes the outer columns on the right side of the keyboard available
 and the `E` key makes the outer columns on the left side of the keyboard
@@ -42,7 +42,7 @@ available.
 The modifier keys are organised vertically on the outside columns so that they
 can be pressed along with the extended layer keys. The extended layers also
 define the corresponding modifier keys in the same places, so you can be relaxed
-about when you hold down modifiers in relation to the layer keys themselves.
+about whether you hold down modifiers before or after the layer key.
 
 The second way is to use combos.
 
@@ -83,7 +83,7 @@ Finally the number of thumb keys per side can be increased:
 ### Symbol Layers
 
 Both symbol layers put the symbols associated with the shifted number keys on
-the top row.
+the top row, in their correct finger positions as much as possible.
 
  ![Left Symbol Layer](https://i.imgur.com/PKImXjQ.png)
 
