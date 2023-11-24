@@ -49,8 +49,8 @@ The second way is to use combos.
 ![Combo Keys](https://i.imgur.com/1hmz6D1.png)
 
 Combos make the outer keys available by pressing two adjacent keys at the same
-time. For example, `K` is accessed by pressing the `H` and `Comma` keys
-together.
+time. For example, `K` is accessed by pressing the `H` and `,` keys together,
+and `/` is accessed by pressing the `,` and `.` keys together.
 
 The final way is to use a larger keyboard (most keyboards) and expand the keymap
 to use them, by setting variables in the `rules.mk` file.
