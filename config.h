@@ -17,10 +17,15 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #pragma once
 
-// Tapping timings.
+// Tapping config.
 
 #define PERMISSIVE_HOLD
 #define TAPPING_TERM_PER_KEY
+#define RETRO_TAPPING
+#define RETRO_TAPPING_PER_KEY
+
+// Tapping timings.
+
 #define TAPPING_TERM 190
 #define TAPPING_TERM_MODS 900
 #define TAPPING_TERM_LAYER 150

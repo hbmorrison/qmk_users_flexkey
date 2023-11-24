@@ -7,6 +7,8 @@ mind, based on Colemak-DH and a core set of layers for symbols, numbers and
 navigation keys situated in a 3x3 grid. The layout is designed to work with as
 little as 18 keys with 2 thumb keys and can be expanded from there.
 
+## Usage
+
 This git repository should be copied or cloned into the `users/flexkey/` folder
 in the QMK firmware, or it can be added as a submodule. The `install_keymaps.sh`
 script will install keymaps into several supported keyboards, which can then be
@@ -16,14 +18,18 @@ adjusted by editing variables in the `rules.mk` file.
 
 ## Core Functionality
 
-### Base Layer
-
 ![Base Layer](https://i.imgur.com/nLQrqOY.png)
 
-The base layer is made up of the middle three columns of a Colemak DH layout.
-Most of the keys also operate as modifiers or layer keys if held down. There are
-a number of ways to access the rest of the Colemak DH keys. The first way is to
-use the extended layers, accessed with the middle `S` and `E` keys.
+The base layer is made up of the middle three columns of a Colemak-DH layout.
+Most of the keys also operate as modifiers or layer keys if held down. In
+addition, the shortcut layer can be accessed by tapping the two thumb keys at
+the same time, and the QMK `Caps Word` feature can be toggled by tapping the two
+shift modifier keys at the same time.
+
+![Default Combo Keys](https://i.imgur.com/2vaVXIW.png)
+
+There are a number of ways to access the rest of the Colemak-DH keys. The first
+way is to use the extended layers, accessed with the middle `S` and `E` keys.
 
 ![Left Extended Layer](https://i.imgur.com/FjGpWcJ.png)
 
@@ -40,14 +46,11 @@ about when you hold down modifiers in relation to the layer keys themselves.
 
 The second way is to use combos.
 
-![Combo Keys](https://i.imgur.com/mH2OTHz.png)
+![Combo Keys](https://i.imgur.com/1hmz6D1.png)
 
 Combos make the outer keys available by pressing two adjacent keys at the same
 time. For example, `K` is accessed by pressing the `H` and `Comma` keys
 together.
-
-Note that the QMK `Caps Word` feature can be toggled by pressing both shift
-modifier keys - `T` and `N` - together as a combo.
 
 The final way is to use a larger keyboard (most keyboards) and expand the keymap
 to use them, by setting variables in the `rules.mk` file.
@@ -75,17 +78,19 @@ Finally the number of thumb keys per side can be increased:
 - **FK_TWO_THUMBKEYS = yes** enables two thumb keys per side of the keyboard,
   adding `Shift` and `Backspace` thumb keys alongside `Space` and `Enter`.
 
+## Other Layers
+
 ### Symbol Layers
 
 Both symbol layers put the symbols associated with the shifted number keys on
 the top row.
 
- ![Left Symbol Layer](https://i.imgur.com/VJQwVqO.png)
+ ![Left Symbol Layer](https://i.imgur.com/PKImXjQ.png)
 
 The left symbol layer gathers the pairs of symbols that would normally appear on
 the right side of a standard UK ISO keyboard.
 
-![Right Symbol Layer](https://i.imgur.com/l9g2RZT.png)
+![Right Symbol Layer](https://i.imgur.com/sZ8cSr1.png)
 
 The right symbol layer gathers the brackets, braces and parentheses. The
 backslash and pipe symbols appear on the left, echoing where that key appears on
@@ -111,19 +116,30 @@ left-handed). Some useful keys are replicated on the right side of the layers.
 The controls and function layers gather together media keys and function keys
 respectively.
 
-![Controls Layer](https://i.imgur.com/pPfUDTk.png)
+![Controls Layer](https://i.imgur.com/EjEdnBC.png)
 
-![Function Keys Layer](https://i.imgur.com/liex7sS.png)
+![Function Layer](https://i.imgur.com/1pMgyaz.png)
+
+The function layer also has keys for the left and right mouse buttons, which can
+be used with a trackball operated by your left thumb.
 
 ### Shortcut Layer
 
 Finally the shortcut layer provides a number of macros to work with applications
-on Windows and ChromeOS. This layer is fairly tailored to my work.
+on Windows and ChromeOS. This layer is tailored to my work and may be of limited
+use to other people without modifications.
 
-The Windows macros rely on an AutoHotkey script (included in this repo) whereas
-on ChromeOS applications are launched based on their postion on the shelf. By
-default the keyboard will start in Windows mode, but the mode can be changed at
-any time with the `Win` and `CROS` keys.
+The Windows macros mostly rely on an AutoHotkey script (included in this repo)
+whereas on ChromeOS applications are launched based on their postion on the
+shelf - you can think of the four app keys as "launch shelf app 1" and so on.
+
+The 1Password Shift-Ctrl-Space keyboard shortcut is used on Windows, whereas on
+ChromeOS the browser will be opened and Shift-Ctrl-X will be issued to open the
+1Password browser extension (this may need to be configured in your extension
+settings).
+
+By default the keyboard will start in Windows mode, but the mode can be changed
+at any time with the `Win` and `CROS` keys.
 
 ![Shortcut Layer](https://i.imgur.com/hr0KIXp.png)
 
