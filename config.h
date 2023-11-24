@@ -17,10 +17,15 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #pragma once
 
-// Tapping timings.
+// Tapping config.
 
 #define PERMISSIVE_HOLD
 #define TAPPING_TERM_PER_KEY
+#define RETRO_TAPPING
+#define RETRO_TAPPING_PER_KEY
+
+// Tapping timings.
+
 #define TAPPING_TERM 190
 #define TAPPING_TERM_MODS 900
 #define TAPPING_TERM_LAYER 150
@@ -52,6 +57,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #ifdef FK_TOP_OUTER
 #define KC_BASE_Q KC_Q,
 #define KC_BASE_BSPC ,KC_BSPC
+#define KC_SYM_EXLM KC_EXLM,
 #define SPACER_TL KC_NO,
 #define SPACER_TR ,KC_NO
 #define TEST_TL
@@ -59,6 +65,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #else
 #define KC_BASE_Q
 #define KC_BASE_BSPC
+#define KC_SYM_EXLM
 #define SPACER_TL
 #define SPACER_TR
 #define TEST_TL KC_NO,
@@ -100,11 +107,15 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #ifdef FK_TOP_INNER
 #define KC_BASE_B ,KC_B
 #define KC_BASE_J KC_J,
+#define KC_SYM_PERC KC_PERC, KC_NO,
+#define KC_SYM_CIRC KC_NO, KC_CIRC,
 #define SPACER_TI KC_NO, KC_NO,
 #define TEST_TI
 #else
 #define KC_BASE_B
 #define KC_BASE_J
+#define KC_SYM_PERC
+#define KC_SYM_CIRC
 #define SPACER_TI
 #define TEST_TI KC_NO, KC_NO,
 #endif

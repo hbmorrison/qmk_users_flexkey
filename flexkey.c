@@ -18,10 +18,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "stdio.h"
 #include "flexkey.h"
 
-// Issues HYPR-keypress for Windows and ALT-keypress for ChromeOS.
-
-void hypr_or_alt(char *ss, bool pressed);
-
 // Defines whether to issue Windows or ChromeOS keypresses from macros - Windows
 // by default.
 
@@ -32,9 +28,16 @@ static bool fk_is_chromebook = false;
 
 static bool fk_alt_tab_pressed = false;
 
+// State of the shift modifiers - used to turn shift off for symbol layers.
+
+static bool fk_shift_pressed = false;
+static bool fk_os_shift_pressed = false;
+
 // True if rand() has already been seeded using srand().
 
 static bool fk_srand_seeded = false;
+
+// Process key presses.
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 
@@ -52,18 +55,31 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 
   uint8_t current_layer = get_highest_layer(layer_state);
 
-  if (record->event.pressed && current_layer > LAYER_BASE) {
-    switch (keycode) {
-      // Allow keys in the extended layers to be shifted.
-      case KC_A ... KC_Z:
-      case KC_DOT:
-      case KC_BSPC:
-      // Allow tabs to be shifted.
-      case KC_TAB:
-        break;
-      default:
-        del_mods(MOD_MASK_SHIFT);
-        del_oneshot_mods(MOD_MASK_SHIFT);
+  if (record->event.pressed) {
+    if (current_layer > LAYER_BASE) {
+      switch (keycode) {
+        // Allow keys in the extended layers to be shifted.
+        case KC_A ... KC_Z:
+        case KC_DOT:
+        case KC_BSPC:
+        // Allow tabs to be shifted.
+        case KC_TAB:
+          break;
+        default:
+          fk_shift_pressed = get_mods() & MOD_BIT(KC_LSFT);
+          fk_os_shift_pressed = get_oneshot_mods() & MOD_BIT(KC_LSFT);
+          del_mods(MOD_MASK_SHIFT);
+          del_oneshot_mods(MOD_MASK_SHIFT);
+      }
+    }
+  } else {
+    if (fk_shift_pressed) {
+      add_mods(MOD_BIT(KC_LSFT));
+      fk_shift_pressed = false;
+    }
+    if (fk_os_shift_pressed) {
+      add_oneshot_mods(MOD_BIT(KC_LSFT));
+      fk_os_shift_pressed = false;
     }
   }
 
@@ -84,16 +100,56 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     // Application switching macros.
 
     case M_APP1:
-      hypr_or_alt(SS_TAP(X_1), record->event.pressed);
+      if (record->event.pressed) {
+        if (fk_is_chromebook) {
+          SEND_STRING(SS_DOWN(X_LALT));
+          SEND_STRING(SS_TAP(X_1));
+          SEND_STRING(SS_UP(X_LALT));
+        } else {
+          SEND_STRING(SS_DOWN(X_LSFT)SS_DOWN(X_LCTL)SS_DOWN(X_LALT)SS_DOWN(X_LGUI));
+          SEND_STRING(SS_TAP(X_1));
+          SEND_STRING(SS_UP(X_LGUI)SS_UP(X_LALT)SS_UP(X_LCTL)SS_UP(X_LSFT));
+        }
+      }
       break;
     case M_APP2:
-      hypr_or_alt(SS_TAP(X_2), record->event.pressed);
+      if (record->event.pressed) {
+        if (fk_is_chromebook) {
+          SEND_STRING(SS_DOWN(X_LALT));
+          SEND_STRING(SS_TAP(X_2));
+          SEND_STRING(SS_UP(X_LALT));
+        } else {
+          SEND_STRING(SS_DOWN(X_LSFT)SS_DOWN(X_LCTL)SS_DOWN(X_LALT)SS_DOWN(X_LGUI));
+          SEND_STRING(SS_TAP(X_2));
+          SEND_STRING(SS_UP(X_LGUI)SS_UP(X_LALT)SS_UP(X_LCTL)SS_UP(X_LSFT));
+        }
+      }
       break;
     case M_APP3:
-      hypr_or_alt(SS_TAP(X_3), record->event.pressed);
+      if (record->event.pressed) {
+        if (fk_is_chromebook) {
+          SEND_STRING(SS_DOWN(X_LALT));
+          SEND_STRING(SS_TAP(X_3));
+          SEND_STRING(SS_UP(X_LALT));
+        } else {
+          SEND_STRING(SS_DOWN(X_LSFT)SS_DOWN(X_LCTL)SS_DOWN(X_LALT)SS_DOWN(X_LGUI));
+          SEND_STRING(SS_TAP(X_3));
+          SEND_STRING(SS_UP(X_LGUI)SS_UP(X_LALT)SS_UP(X_LCTL)SS_UP(X_LSFT));
+        }
+      }
       break;
     case M_APP4:
-      hypr_or_alt(SS_TAP(X_4), record->event.pressed);
+      if (record->event.pressed) {
+        if (fk_is_chromebook) {
+          SEND_STRING(SS_DOWN(X_LALT));
+          SEND_STRING(SS_TAP(X_4));
+          SEND_STRING(SS_UP(X_LALT));
+        } else {
+          SEND_STRING(SS_DOWN(X_LSFT)SS_DOWN(X_LCTL)SS_DOWN(X_LALT)SS_DOWN(X_LGUI));
+          SEND_STRING(SS_TAP(X_4));
+          SEND_STRING(SS_UP(X_LGUI)SS_UP(X_LALT)SS_UP(X_LCTL)SS_UP(X_LSFT));
+        }
+      }
       break;
 
     // Launch 1Password - in ChromeOS, switch to the browser before issuing
@@ -194,9 +250,11 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
   return true;
 }
 
+// Set the tapping terms for modifiers and layer keys.
+
 uint16_t get_tapping_term(uint16_t keycode, keyrecord_t *record) {
   switch (keycode) {
-    // Set the tapping term for the homerow mods.
+    // Set the tapping term for the modifiers.
     case KC_W_ALT:
     case KC_R_CTL:
     case KC_T_SFT:
@@ -250,6 +308,8 @@ bool caps_word_press_user(uint16_t keycode) {
   }
 }
 
+// Give cross split combos a greater amount of time to trigger.
+
 uint16_t get_combo_term(uint16_t index, combo_t *combo) {
   switch (combo->keycode) {
     case CW_TOGG:
@@ -260,30 +320,21 @@ uint16_t get_combo_term(uint16_t index, combo_t *combo) {
   }
 }
 
-// Issues HYPR-keycode for Windows, for AutoHotkey to interpret, and ALT-keycode
-// for ChromeOS, which launches the n'th app on the task bar.
+// Make sure that modifier keys do not emit their keypress when held down with
+// no additional keys. This allows the modifiers to be used with mouse clicks.
 
-void hypr_or_alt(char *ss, bool pressed) {
-  if (pressed) {
-    if (fk_is_chromebook) {
-      SEND_STRING(SS_DOWN(X_LALT));
-      SEND_STRING(ss);
-      SEND_STRING(SS_UP(X_LALT));
-    } else {
-      SEND_STRING(SS_DOWN(X_LSFT)SS_DOWN(X_LCTL)SS_DOWN(X_LALT)SS_DOWN(X_LGUI));
-      SEND_STRING(ss);
-      SEND_STRING(SS_UP(X_LALT));
-      SEND_STRING(SS_UP(X_LGUI)SS_UP(X_LALT)SS_UP(X_LCTL)SS_UP(X_LSFT));
-    }
+bool get_retro_tapping(uint16_t keycode, keyrecord_t *record) {
+  switch (keycode) {
+    case KC_W_ALT:
+    case KC_R_CTL:
+    case KC_T_SFT:
+    case KC_P_GUI:
+    case KC_L_GUI:
+    case KC_N_SFT:
+    case KC_I_CTL:
+    case KC_Y_ALT:
+      return false;
+    default:
+      return true;
   }
-}
-
-// Reduce the size of the compiled firmware.
-
-uint16_t keycode_config(uint16_t keycode) {
-    return keycode;
-}
-
-uint8_t mod_config(uint8_t mod) {
-    return mod;
 }
