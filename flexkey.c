@@ -15,7 +15,6 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "stdio.h"
 #include "flexkey.h"
 
 // Defines whether to issue Windows or ChromeOS keypresses from macros - Windows
@@ -32,10 +31,6 @@ static bool fk_alt_tab_pressed = false;
 
 static bool fk_shift_pressed = false;
 static bool fk_os_shift_pressed = false;
-
-// True if rand() has already been seeded using srand().
-
-static bool fk_srand_seeded = false;
 
 // Process key presses.
 
@@ -151,22 +146,29 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         }
       }
       break;
-
-    // Launch 1Password - in ChromeOS, switch to the browser before issuing
-    // shortcut keypress.
-
-    case M_1PASS:
+    case M_APP5:
       if (record->event.pressed) {
         if (fk_is_chromebook) {
-          SEND_STRING(SS_DOWN(X_LALT)SS_TAP(X_1)SS_UP(X_LALT));
-          SEND_STRING(SS_DELAY(100));
-          SEND_STRING(SS_DOWN(X_LSFT)SS_DOWN(X_LCTL));
-          SEND_STRING(SS_TAP(X_X));
-          SEND_STRING(SS_UP(X_LCTL)SS_UP(X_LSFT));
+          SEND_STRING(SS_DOWN(X_LALT));
+          SEND_STRING(SS_TAP(X_5));
+          SEND_STRING(SS_UP(X_LALT));
         } else {
-          SEND_STRING(SS_DOWN(X_LSFT)SS_DOWN(X_LCTL));
-          SEND_STRING(SS_TAP(X_SPC));
-          SEND_STRING(SS_UP(X_LCTL)SS_UP(X_LSFT));
+          SEND_STRING(SS_DOWN(X_LSFT)SS_DOWN(X_LCTL)SS_DOWN(X_LALT)SS_DOWN(X_LGUI));
+          SEND_STRING(SS_TAP(X_5));
+          SEND_STRING(SS_UP(X_LGUI)SS_UP(X_LALT)SS_UP(X_LCTL)SS_UP(X_LSFT));
+        }
+      }
+      break;
+    case M_APP6:
+      if (record->event.pressed) {
+        if (fk_is_chromebook) {
+          SEND_STRING(SS_DOWN(X_LALT));
+          SEND_STRING(SS_TAP(X_6));
+          SEND_STRING(SS_UP(X_LALT));
+        } else {
+          SEND_STRING(SS_DOWN(X_LSFT)SS_DOWN(X_LCTL)SS_DOWN(X_LALT)SS_DOWN(X_LGUI));
+          SEND_STRING(SS_TAP(X_6));
+          SEND_STRING(SS_UP(X_LGUI)SS_UP(X_LALT)SS_UP(X_LCTL)SS_UP(X_LSFT));
         }
       }
       break;
@@ -214,24 +216,6 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
       }
       break;
 
-    // Types out a four-digit pseudo-random number.
-
-    case M_4RAND:
-      if (record->event.pressed) {
-        if (fk_srand_seeded == false) {
-#if defined(__AVR_ATmega32U4__)
-          srand(TCNT0 + TCNT1 + TCNT3 + TCNT4);
-#else
-          srand(timer_read32());
-#endif
-          fk_srand_seeded = true;
-        }
-        char rand_string[6];
-        sprintf(rand_string, "%d", rand() % 10000 + 1000);
-        SEND_STRING(rand_string);
-      }
-      break;
-
     // Swap between Windows and ChromeOS macro keypresses.
 
     case M_ISCROS:
@@ -273,7 +257,7 @@ uint16_t get_tapping_term(uint16_t keycode, keyrecord_t *record) {
     case KC_DOT_SYM_RIGHT:
     case KC_ENT_NUM:
     case KC_SPC_NAV:
-    case KC_SCUT:
+    case KC_COMM_SCUT:
       return TAPPING_TERM_LAYER;
     default:
       return TAPPING_TERM;
@@ -313,7 +297,6 @@ bool caps_word_press_user(uint16_t keycode) {
 uint16_t get_combo_term(uint16_t index, combo_t *combo) {
   switch (combo->keycode) {
     case CW_TOGG:
-    case KC_SCUT:
       return COMBO_TERM_CROSS_SPLIT;
     default:
       return COMBO_TERM;
