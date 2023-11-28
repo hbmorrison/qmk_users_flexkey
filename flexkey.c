@@ -32,6 +32,12 @@ static bool fk_alt_tab_pressed = false;
 static bool fk_shift_pressed = false;
 static bool fk_os_shift_pressed = false;
 
+// Used to temporarily store the state of the mod keys.
+static uint8_t fk_mod_state = 0;
+
+// State for managing shift backspace behaviour.
+static bool fk_del_registered = false;
+
 // Process key presses.
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
@@ -78,7 +84,29 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     }
   }
 
+  fk_mod_state = get_mods();
+
   switch (keycode) {
+
+    // Shift-backspace produces delete.
+
+    case KC_BSPC:
+      if (record->event.pressed) {
+        if (fk_mod_state & MOD_MASK_SHIFT) {
+          del_mods(MOD_MASK_SHIFT);
+          register_code(KC_DEL);
+          fk_del_registered = true;
+          set_mods(fk_mod_state);
+          return false;
+        }
+      } else {
+        if (fk_del_registered) {
+          unregister_code(KC_DEL);
+          fk_del_registered = false;
+          return false;
+        }
+      }
+      break;
 
     // Hold down KC_LALT persistantly to allow tabbing through windows.
 
