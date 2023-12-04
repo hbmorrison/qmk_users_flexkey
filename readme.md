@@ -21,7 +21,7 @@ to suit by editing variables in the `rules.mk` file.
 
 ## Core Functionality
 
-![Base Layer](https://i.imgur.com/nLQrqOY.png)
+![Base Layer](https://i.imgur.com/o7hzWQV.png)
 
 The base layer is made up of the middle three columns of a Colemak-DH layout.
 Most of the keys also operate as modifiers or layer keys if held down. In
@@ -58,7 +58,7 @@ and `/` is accessed by pressing the `,` and `.` keys together.
 The final way is to use a larger keyboard and expand the keymap to use them by
 setting variables in the `rules.mk` file.
 
-![Expanded Keys](https://i.imgur.com/Xh5wUOa.png)
+![Expanded Keys](https://i.imgur.com/wZwN2c9.png)
 
 The following variables are available:
 
@@ -101,7 +101,7 @@ a UK ISO keyboard.
 
 ### Numbers and Navigation Layers
 
-![Navigation Layer](https://i.imgur.com/mB7kndf.png)
+![Navigation Layer](https://i.imgur.com/wrTQpvZ.png)
 
 The navigation layer gathers navigation related keys together. The right side of
 the layer has the arrow keys and related keys, along with some useful navigation
@@ -109,7 +109,7 @@ macros. The left side has the three non-alphanumeric keys found on the left of a
 standard keyboard - `Esc`, `Tab` and `Caps Lock` - as well as modified `Tab`
 keys for convenience.
 
-![Number Layer](https://i.imgur.com/fN343YE.png)
+![Number Layer](https://i.imgur.com/BtJbMHw.png)
 
 The number layer arranges the number keys in keypad format on the left side (I'm
 left-handed). Some useful keys are replicated on the right side of the layers.
@@ -145,7 +145,7 @@ settings).
 By default the keyboard will start in Windows mode, but the mode can be changed
 at any time with the `Win` and `CROS` keys.
 
-![Shortcut Layer](https://i.imgur.com/O9h9DEv.png)
+![Shortcut Layer](https://i.imgur.com/advFl4r.png)
 
 As mentioned above, the shortcut layer is activated by tapping the `Space` and
 `Enter` keys at the same time. The layer is also activated if one of those keys
