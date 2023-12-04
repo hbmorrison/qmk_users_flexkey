@@ -65,7 +65,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define KC_BASE_BSPC ,KC_BSPC
 #define KC_SYM_EXLM KC_EXLM,
 #define SPACER_TL KC_NO,
-// Top right spacer is transparent so that other layers can access extended
+// Top right spacer is transparent so that other layers can access expanded
 // backspace key.
 #define SPACER_TR ,KC_TRNS
 #define TEST_TL
@@ -86,7 +86,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define SPACER_ML KC_NO,
 #define SPACER_MR ,KC_NO
 // Middle left and right spacers on the sym layers are transparent to accomodate
-// the extended layer keys.
+// the expanded layer keys.
 #define SYM_SPACER_ML KC_TRNS,
 #define SYM_SPACER_MR ,KC_TRNS
 #define TEST_ML
@@ -108,10 +108,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define SPACER_BL KC_NO,
 #define SPACER_BR ,KC_NO
 // Bottom left and right spacers on the sym layers are transparent to accomodate
-// the extended layer keys.
+// the expanded layer keys.
 #define SYM_SPACER_BL KC_TRNS,
 #define SYM_SPACER_BR ,KC_TRNS
-// Bottom right spacer on the num layer is transparent so that extended slash
+// Bottom right spacer on the num layer is transparent so that expanded slash
 // key is available.
 #define NUM_SPACER_BR ,KC_TRNS
 #define TEST_BL
