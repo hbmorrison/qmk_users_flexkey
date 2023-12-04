@@ -29,7 +29,7 @@ addition, the shortcut layer can be accessed by tapping the two thumb keys at
 the same time and the QMK Caps Word feature can be toggled by tapping the two
 shift modifier keys at the same time.
 
-![Default Combo Keys](https://i.imgur.com/2vaVXIW.png)
+![Default Combo Keys](https://i.imgur.com/M9D6BeC.png)
 
 There are a number of ways to access the rest of the Colemak-DH keys. The first
 way is to use the middle `S` and `E` keys to access the extended layers.
