@@ -21,10 +21,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 const uint16_t PROGMEM cw_combo[] = {KC_T_SFT, KC_N_SFT, COMBO_END};
 
-// Combo for shortcut layer.
-
-const uint16_t PROGMEM scut_combo[] = {KC_SPC_NAV, KC_ENT_NUM, COMBO_END};
-
 // Combos for missing keys.
 
 #if defined FK_COMBOS_ON || ! defined FK_TOP_OUTER
@@ -61,7 +57,6 @@ const uint16_t PROGMEM k_combo[] = {KC_H, KC_COMM, COMBO_END};
 
 combo_t key_combos[] = {
   COMBO(cw_combo, CW_TOGG),
-  COMBO(scut_combo, KC_SCUT),
 #if defined FK_COMBOS_ON || ! defined FK_TOP_OUTER
   COMBO(q_combo, KC_Q),
   COMBO(bspc_combo, KC_BSPC),

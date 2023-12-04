@@ -15,7 +15,6 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "stdio.h"
 #include "flexkey.h"
 
 // Defines whether to issue Windows or ChromeOS keypresses from macros - Windows
@@ -33,9 +32,13 @@ static bool fk_alt_tab_pressed = false;
 static bool fk_shift_pressed = false;
 static bool fk_os_shift_pressed = false;
 
-// True if rand() has already been seeded using srand().
+#ifdef FK_SHIFT_BACKSPACE_DEL
+// Used to temporarily store the state of the mod keys.
+static uint8_t fk_mod_state = 0;
 
-static bool fk_srand_seeded = false;
+// State for managing shift backspace behaviour.
+static bool fk_del_registered = false;
+#endif
 
 // Process key presses.
 
@@ -83,7 +86,34 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     }
   }
 
+#ifdef FK_SHIFT_BACKSPACE_DEL
+  // Store current modifiers for shift-backspace action.
+  fk_mod_state = get_mods();
+#endif
+
   switch (keycode) {
+
+#ifdef FK_SHIFT_BACKSPACE_DEL
+    // Shift-backspace produces delete.
+
+    case KC_BSPC:
+      if (record->event.pressed) {
+        if (fk_mod_state & MOD_MASK_SHIFT) {
+          del_mods(MOD_MASK_SHIFT);
+          register_code(KC_DEL);
+          fk_del_registered = true;
+          set_mods(fk_mod_state);
+          return false;
+        }
+      } else {
+        if (fk_del_registered) {
+          unregister_code(KC_DEL);
+          fk_del_registered = false;
+          return false;
+        }
+      }
+      break;
+#endif
 
     // Hold down KC_LALT persistantly to allow tabbing through windows.
 
@@ -151,22 +181,29 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         }
       }
       break;
-
-    // Launch 1Password - in ChromeOS, switch to the browser before issuing
-    // shortcut keypress.
-
-    case M_1PASS:
+    case M_APP5:
       if (record->event.pressed) {
         if (fk_is_chromebook) {
-          SEND_STRING(SS_DOWN(X_LALT)SS_TAP(X_1)SS_UP(X_LALT));
-          SEND_STRING(SS_DELAY(100));
-          SEND_STRING(SS_DOWN(X_LSFT)SS_DOWN(X_LCTL));
-          SEND_STRING(SS_TAP(X_X));
-          SEND_STRING(SS_UP(X_LCTL)SS_UP(X_LSFT));
+          SEND_STRING(SS_DOWN(X_LALT));
+          SEND_STRING(SS_TAP(X_5));
+          SEND_STRING(SS_UP(X_LALT));
         } else {
-          SEND_STRING(SS_DOWN(X_LSFT)SS_DOWN(X_LCTL));
-          SEND_STRING(SS_TAP(X_SPC));
-          SEND_STRING(SS_UP(X_LCTL)SS_UP(X_LSFT));
+          SEND_STRING(SS_DOWN(X_LSFT)SS_DOWN(X_LCTL)SS_DOWN(X_LALT)SS_DOWN(X_LGUI));
+          SEND_STRING(SS_TAP(X_5));
+          SEND_STRING(SS_UP(X_LGUI)SS_UP(X_LALT)SS_UP(X_LCTL)SS_UP(X_LSFT));
+        }
+      }
+      break;
+    case M_APP6:
+      if (record->event.pressed) {
+        if (fk_is_chromebook) {
+          SEND_STRING(SS_DOWN(X_LALT));
+          SEND_STRING(SS_TAP(X_6));
+          SEND_STRING(SS_UP(X_LALT));
+        } else {
+          SEND_STRING(SS_DOWN(X_LSFT)SS_DOWN(X_LCTL)SS_DOWN(X_LALT)SS_DOWN(X_LGUI));
+          SEND_STRING(SS_TAP(X_6));
+          SEND_STRING(SS_UP(X_LGUI)SS_UP(X_LALT)SS_UP(X_LCTL)SS_UP(X_LSFT));
         }
       }
       break;
@@ -214,24 +251,6 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
       }
       break;
 
-    // Types out a four-digit pseudo-random number.
-
-    case M_4RAND:
-      if (record->event.pressed) {
-        if (fk_srand_seeded == false) {
-#if defined(__AVR_ATmega32U4__)
-          srand(TCNT0 + TCNT1 + TCNT3 + TCNT4);
-#else
-          srand(timer_read32());
-#endif
-          fk_srand_seeded = true;
-        }
-        char rand_string[6];
-        sprintf(rand_string, "%d", rand() % 10000 + 1000);
-        SEND_STRING(rand_string);
-      }
-      break;
-
     // Swap between Windows and ChromeOS macro keypresses.
 
     case M_ISCROS:
@@ -263,6 +282,8 @@ uint16_t get_tapping_term(uint16_t keycode, keyrecord_t *record) {
     case KC_N_SFT:
     case KC_I_CTL:
     case KC_Y_ALT:
+    case KC_LEFT_SFT:
+    case KC_RIGHT_CTL:
       return TAPPING_TERM_MODS;
     // Set the tapping term for layer keys.
     case KC_X_SYM_LEFT:
@@ -273,7 +294,11 @@ uint16_t get_tapping_term(uint16_t keycode, keyrecord_t *record) {
     case KC_DOT_SYM_RIGHT:
     case KC_ENT_NUM:
     case KC_SPC_NAV:
-    case KC_SCUT:
+    case KC_COMM_SCUT:
+    case KC_Z_SYM_LEFT:
+    case KC_SLSH_SYM_RIGHT:
+    case KC_A_SYM_LEFT:
+    case KC_O_SYM_RIGHT:
       return TAPPING_TERM_LAYER;
     default:
       return TAPPING_TERM;
@@ -296,11 +321,17 @@ bool caps_word_press_user(uint16_t keycode) {
     case KC_DEL:
     case KC_UNDS:
       return true;
-    // Do not deactivate if the layer keys are held down.
+    // Do not deactivate if symbol, ext, num or nav layer keys are held down.
     case KC_X_SYM_LEFT:
     case KC_S_EXT_LEFT:
     case KC_E_EXT_RIGHT:
     case KC_DOT_SYM_RIGHT:
+    case KC_ENT_NUM:
+    case KC_SPC_NAV:
+    case KC_Z_SYM_LEFT:
+    case KC_SLSH_SYM_RIGHT:
+    case KC_A_SYM_LEFT:
+    case KC_O_SYM_RIGHT:
       return true;
     // Deactivate caps word by default.
     default:
@@ -313,7 +344,6 @@ bool caps_word_press_user(uint16_t keycode) {
 uint16_t get_combo_term(uint16_t index, combo_t *combo) {
   switch (combo->keycode) {
     case CW_TOGG:
-    case KC_SCUT:
       return COMBO_TERM_CROSS_SPLIT;
     default:
       return COMBO_TERM;
@@ -333,6 +363,8 @@ bool get_retro_tapping(uint16_t keycode, keyrecord_t *record) {
     case KC_N_SFT:
     case KC_I_CTL:
     case KC_Y_ALT:
+    case KC_LEFT_SFT:
+    case KC_RIGHT_CTL:
       return false;
     default:
       return true;
