@@ -32,11 +32,13 @@ static bool fk_alt_tab_pressed = false;
 static bool fk_shift_pressed = false;
 static bool fk_os_shift_pressed = false;
 
+#ifdef FK_SHIFT_BACKSPACE_DEL
 // Used to temporarily store the state of the mod keys.
 static uint8_t fk_mod_state = 0;
 
 // State for managing shift backspace behaviour.
 static bool fk_del_registered = false;
+#endif
 
 // Process key presses.
 
@@ -84,10 +86,14 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     }
   }
 
+#ifdef FK_SHIFT_BACKSPACE_DEL
+  // Store current modifiers for shift-backspace action.
   fk_mod_state = get_mods();
+#endif
 
   switch (keycode) {
 
+#ifdef FK_SHIFT_BACKSPACE_DEL
     // Shift-backspace produces delete.
 
     case KC_BSPC:
@@ -107,6 +113,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         }
       }
       break;
+#endif
 
     // Hold down KC_LALT persistantly to allow tabbing through windows.
 
@@ -275,6 +282,8 @@ uint16_t get_tapping_term(uint16_t keycode, keyrecord_t *record) {
     case KC_N_SFT:
     case KC_I_CTL:
     case KC_Y_ALT:
+    case KC_LEFT_SFT:
+    case KC_RIGHT_CTL:
       return TAPPING_TERM_MODS;
     // Set the tapping term for layer keys.
     case KC_X_SYM_LEFT:
@@ -286,6 +295,10 @@ uint16_t get_tapping_term(uint16_t keycode, keyrecord_t *record) {
     case KC_ENT_NUM:
     case KC_SPC_NAV:
     case KC_COMM_SCUT:
+    case KC_Z_SYM_LEFT:
+    case KC_SLSH_SYM_RIGHT:
+    case KC_A_SYM_LEFT:
+    case KC_O_SYM_RIGHT:
       return TAPPING_TERM_LAYER;
     default:
       return TAPPING_TERM;
@@ -308,11 +321,17 @@ bool caps_word_press_user(uint16_t keycode) {
     case KC_DEL:
     case KC_UNDS:
       return true;
-    // Do not deactivate if the layer keys are held down.
+    // Do not deactivate if symbol, ext, num or nav layer keys are held down.
     case KC_X_SYM_LEFT:
     case KC_S_EXT_LEFT:
     case KC_E_EXT_RIGHT:
     case KC_DOT_SYM_RIGHT:
+    case KC_ENT_NUM:
+    case KC_SPC_NAV:
+    case KC_Z_SYM_LEFT:
+    case KC_SLSH_SYM_RIGHT:
+    case KC_A_SYM_LEFT:
+    case KC_O_SYM_RIGHT:
       return true;
     // Deactivate caps word by default.
     default:
@@ -344,6 +363,8 @@ bool get_retro_tapping(uint16_t keycode, keyrecord_t *record) {
     case KC_N_SFT:
     case KC_I_CTL:
     case KC_Y_ALT:
+    case KC_LEFT_SFT:
+    case KC_RIGHT_CTL:
       return false;
     default:
       return true;

@@ -47,3 +47,6 @@ ifeq ($(strip $(FK_COMBOS_ON)), yes)
   OPT_DEFS += -DFK_COMBOS_ON
 endif
 
+ifeq ($(strip $(FK_SHIFT_BACKSPACE_DEL)), yes)
+  OPT_DEFS += -DFK_SHIFT_BACKSPACE_DEL
+endif

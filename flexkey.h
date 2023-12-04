@@ -77,6 +77,8 @@ enum fk_keycodes {
 #define KC_N_SFT RSFT_T(KC_N)
 #define KC_I_CTL LCTL_T(KC_I)
 #define KC_Y_ALT LALT_T(KC_Y)
+#define KC_LEFT_SFT LSFT_T(KC_LEFT)
+#define KC_RIGHT_CTL LCTL_T(KC_RGHT)
 
 // Layer keys.
 
@@ -89,6 +91,11 @@ enum fk_keycodes {
 #define KC_SPC_NAV LT(LAYER_NAV, KC_SPC)
 #define KC_ENT_NUM LT(LAYER_NUM, KC_ENT)
 #define KC_COMM_SCUT LT(LAYER_SCUT, KC_COMM)
+// Extended sym layer keys.
+#define KC_Z_SYM_LEFT LT(LAYER_SYM_LEFT, KC_Z)
+#define KC_A_SYM_LEFT LT(LAYER_SYM_LEFT, KC_A)
+#define KC_SLSH_SYM_RIGHT LT(LAYER_SYM_RIGHT, KC_SLSH)
+#define KC_O_SYM_RIGHT LT(LAYER_SYM_RIGHT, KC_O)
 
 // Base layer for flexkey keyboards.
 
@@ -122,7 +129,7 @@ enum fk_keycodes {
 #define KM_EXT_LEFT_2L SPACER_ML KC_LCTL, KC_TRNS, KC_LSFT
 #define KM_EXT_LEFT_3L SPACER_BL KC_NO, KC_NO, KC_NO
 
-#define KM_EXT_LEFT_1R SPACER_TI KC_J, KC_NO, KC_BSPC SPACER_TR
+#define KM_EXT_LEFT_1R SPACER_TI KC_J, KC_DEL, KC_BSPC SPACER_TR
 #define KM_EXT_LEFT_2R SPACER_MI KC_M, KC_NO, KC_O SPACER_MR
 #define KM_EXT_LEFT_3R SPACER_BI KC_K, KC_H, KC_SLSH SPACER_BR
 
@@ -152,7 +159,7 @@ enum fk_keycodes {
 
 #define KM_SYM_LEFT_1L SPACER_TL KC_NO, KC_EXLM, KC_CIRC
 #define KM_SYM_LEFT_2L SPACER_ML KC_NO, KC_PLUS, KC_COLN
-#define KM_SYM_LEFT_3L SPACER_BL KC_X, KC_EQL, KC_SCLN
+#define KM_SYM_LEFT_3L SYM_SPACER_BL KC_X, KC_EQL, KC_SCLN
 
 #define KM_SYM_LEFT_1R KC_SYM_CIRC KC_AMPR, KC_ASTR, KC_UNDS SPACER_TR
 #define KM_SYM_LEFT_2R SPACER_MI KC_UK_AT, KC_UK_TILDE, KC_MINS SPACER_MR
@@ -172,7 +179,7 @@ enum fk_keycodes {
 
 #define KM_SYM_RIGHT_1R KC_SYM_PERC KC_PERC, KC_GRV, KC_NO SPACER_TR
 #define KM_SYM_RIGHT_2R SPACER_MI KC_LPRN, KC_LT, KC_NO SPACER_MR
-#define KM_SYM_RIGHT_3R SPACER_BI KC_RPRN, KC_GT, KC_DOT SPACER_BR
+#define KM_SYM_RIGHT_3R SPACER_BI KC_RPRN, KC_GT, KC_DOT SYM_SPACER_BR
 
 #define KM_SYM_RIGHT_1 KM_SYM_RIGHT_1L, KM_SYM_RIGHT_1R
 #define KM_SYM_RIGHT_2 KM_SYM_RIGHT_2L, KM_SYM_RIGHT_2R
@@ -180,14 +187,14 @@ enum fk_keycodes {
 
 #define LAYOUT_SYM_RIGHT KM_SYM_RIGHT_1, KM_SYM_RIGHT_2, KM_SYM_RIGHT_3, KM_THUMB_TRNS
 
-// Navigation layer for flexkey keyboards.
+// Navigation layer for flexkey keyboard.
 
 #define KM_NAV_1L SPACER_TL KC_ESC, KC_PSCR, KC_INS
 #define KM_NAV_2L SPACER_ML KC_TAB, KC_CTL_TAB, M_ALT_TAB
 #define KM_NAV_3L SPACER_BL KC_CAPS, KC_PGDN, KC_NO
 
 #define KM_NAV_1R SPACER_TI M_PDESK, KC_UP, M_NDESK SPACER_TR
-#define KM_NAV_2R SPACER_MI LSFT(KC_LEFT), KC_DOWN, LCTL(KC_RGHT) SPACER_MR
+#define KM_NAV_2R SPACER_MI KC_LEFT_SFT, KC_DOWN, KC_RIGHT_CTL SPACER_MR
 #define KM_NAV_3R SPACER_BI KC_HOME, KC_PGUP, KC_END SPACER_BR
 
 #define KM_NAV_1 KM_NAV_1L, KM_NAV_1R
@@ -212,9 +219,12 @@ enum fk_keycodes {
 #define KM_NUM_2L SPACER_ML KC_4, KC_5, KC_6
 #define KM_NUM_3L SPACER_BL KC_7, KC_8, KC_9
 
+// Delete and backspace from the left extended layer are replicated here for
+// convenience.
 #define KM_NUM_1R SPACER_TI KC_NO, KC_DEL, KC_BSPC SPACER_TR
 #define KM_NUM_2R SPACER_MI KC_NO, KC_0, KC_SLSH SPACER_MR
-#define KM_NUM_3R SPACER_BI KC_NO, KC_NO, KC_DOT SPACER_BR
+// Comma and dot on the base layer are accessible from this layer.
+#define KM_NUM_3R SPACER_BI KC_NO, KC_TRNS, KC_TRNS NUM_SPACER_BR
 
 #define KM_NUM_1 KM_NUM_1L, KM_NUM_1R
 #define KM_NUM_2 KM_NUM_2L, KM_NUM_2R
