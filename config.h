@@ -27,7 +27,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // Tapping timings.
 
 #define TAPPING_TERM 190
-#define TAPPING_TERM_MODS 900
+#define TAPPING_TERM_MODS 700
 #define TAPPING_TERM_LAYER 150
 
 // Combo timings.
@@ -40,7 +40,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define DOUBLE_TAP_SHIFT_TURNS_ON_CAPS_WORD
 #define CAPS_WORD_IDLE_TIMEOUT 10000 // ten seconds
 
-// Enable nice scroll wheel emulation.
+// Enable better behaved scroll wheel emulation.
 
 #define MOUSEKEY_WHEEL_DELAY 100
 #define MOUSEKEY_WHEEL_INTERVAL 70
@@ -65,7 +65,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define KC_BASE_BSPC ,KC_BSPC
 #define KC_SYM_EXLM KC_EXLM,
 #define SPACER_TL KC_NO,
-#define SPACER_TR ,KC_NO
+// Top right spacer is transparent so that other layers can access expanded
+// backspace key.
+#define SPACER_TR ,KC_TRNS
 #define TEST_TL
 #define TEST_TR
 #else
@@ -79,10 +81,14 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #endif
 
 #ifdef FK_MDL_OUTER
-#define KC_BASE_A KC_A,
-#define KC_BASE_O ,KC_O
+#define KC_BASE_A KC_A_SYM_LEFT,
+#define KC_BASE_O ,KC_O_SYM_RIGHT
 #define SPACER_ML KC_NO,
 #define SPACER_MR ,KC_NO
+// Middle left and right spacers on the sym layers are transparent to accomodate
+// the expanded layer keys.
+#define SYM_SPACER_ML KC_TRNS,
+#define SYM_SPACER_MR ,KC_TRNS
 #define TEST_ML
 #define TEST_MR
 #else
@@ -90,15 +96,24 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define KC_BASE_O
 #define SPACER_ML
 #define SPACER_MR
+#define SYM_SPACER_ML
+#define SYM_SPACER_MR
 #define TEST_ML KC_NO,
 #define TEST_MR ,KC_NO
 #endif
 
 #ifdef FK_BTM_OUTER
-#define KC_BASE_Z KC_Z,
-#define KC_BASE_SLSH ,KC_SLSH
+#define KC_BASE_Z KC_Z_SYM_LEFT,
+#define KC_BASE_SLSH ,KC_SLSH_SYM_RIGHT
 #define SPACER_BL KC_NO,
 #define SPACER_BR ,KC_NO
+// Bottom left and right spacers on the sym layers are transparent to accomodate
+// the expanded layer keys.
+#define SYM_SPACER_BL KC_TRNS,
+#define SYM_SPACER_BR ,KC_TRNS
+// Bottom right spacer on the num layer is transparent so that expanded slash
+// key is available.
+#define NUM_SPACER_BR ,KC_TRNS
 #define TEST_BL
 #define TEST_BR
 #else
@@ -106,6 +121,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define KC_BASE_SLSH
 #define SPACER_BL
 #define SPACER_BR
+#define SYM_SPACER_BL
+#define SYM_SPACER_BR
+#define NUM_SPACER_BR
 #define TEST_BL KC_NO,
 #define TEST_BR ,KC_NO
 #endif
