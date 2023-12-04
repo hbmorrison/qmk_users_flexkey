@@ -25,9 +25,8 @@ to suit by editing variables in the `rules.mk` file.
 
 The base layer is made up of the middle three columns of a Colemak-DH layout.
 Most of the keys also operate as modifiers or layer keys if held down. In
-addition, the shortcut layer can be accessed by tapping the two thumb keys at
-the same time and the QMK Caps Word feature can be toggled by tapping the two
-shift modifier keys at the same time.
+addition, the QMK Caps Word feature can be toggled by tapping the two shift
+modifier keys at the same time.
 
 ![Default Combo Keys](https://i.imgur.com/M9D6BeC.png)
 
@@ -109,10 +108,15 @@ macros. The left side has the three non-alphanumeric keys found on the left of a
 standard keyboard - `Esc`, `Tab` and `Caps Lock` - as well as modified `Tab`
 keys for convenience.
 
+The `Left` and `Right` arrow keys can be held down to activate `Shift` and
+`Control` modifiers.
+
 ![Number Layer](https://i.imgur.com/BtJbMHw.png)
 
 The number layer arranges the number keys in keypad format on the left side (I'm
-left-handed). Some useful keys are replicated on the right side of the layers.
+left-handed). Some useful keys are replicated on the right side of the layers:
+`Del` and `Backspace` from the left extended layer, `,` and `.` from the base
+layer, and `/` for typing dates.
 
 ### Controls and Function Layers
 
@@ -130,24 +134,17 @@ trackball operated by your thumb.
 ### Shortcut Layer
 
 Finally the shortcut layer provides a number of macros that work with
-applications on Windows and ChromeOS. This layer is tailored to my work and may
-be of limited use to other people without modifications.
+applications on Windows and ChromeOS.
 
-The Windows macros mostly rely on an AutoHotkey script (included in this repo)
-whereas on ChromeOS applications are launched based on their postion on the
-shelf - you can think of the four app keys as "launch shelf app 1" and so on.
+![Shortcut Layer](https://i.imgur.com/advFl4r.png)
 
-The 1Password Shift-Ctrl-Space keyboard shortcut is used on Windows, whereas on
-ChromeOS the browser will be opened and Shift-Ctrl-X will be issued to open the
-1Password browser extension (this may need to be configured in your extension
-settings).
+The Windows app keys rely on an AutoHotkey script (included in this repo)
+whereas, on ChromeOS applications are launched based on their postion on the
+shelf - you can think of the six app keys as "launch shelf app 1" and so on.
+
+An `Emoji` key will launch the emoji picker window on both operating systems.
 
 By default the keyboard will start in Windows mode, but the mode can be changed
 at any time with the `Win` and `CROS` keys.
 
-![Shortcut Layer](https://i.imgur.com/advFl4r.png)
 
-As mentioned above, the shortcut layer is activated by tapping the `Space` and
-`Enter` keys at the same time. The layer is also activated if one of those keys
-is tapped while the other is held down, so you can be relaxed about exactly how
-the keys are pressed.
